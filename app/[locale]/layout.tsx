@@ -6,12 +6,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing, toLocale } from "@/i18n/routing";
 import { thmanyah } from "@/app/fonts/thmanyah";
-import {
-  SITE_URL,
-  graph,
-  personJsonLd,
-  websiteJsonLd,
-} from "@/lib/seo";
+import { SITE_URL, graph, personJsonLd, websiteJsonLd } from "@/lib/seo";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -60,6 +55,7 @@ export async function generateMetadata({
   };
 }
 
+// Root layout for the app
 export default async function RootLayout({
   children,
   params,
