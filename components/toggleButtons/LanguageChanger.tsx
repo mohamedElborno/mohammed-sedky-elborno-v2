@@ -11,25 +11,13 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Languages } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
 
-// Each language is listed by its own name (and its note is in that language),
-// so a reader can find theirs whatever language the page is in right now.
+// Each language is listed by its own name, so a reader can find theirs
+// whatever language the page is in right now.
 const LOCALE_NAMES: Record<Locale, string> = {
   ar: "العربية",
   tr: "Türkçe",
   en: "English",
-};
-
-// Arabic is the source language; the others are machine translated.
-const TRANSLATION_NOTES: Partial<Record<Locale, string>> = {
-  tr: "Çeviri yapay zeka ile yapılmıştır.",
-  en: "This translation was generated with AI.",
 };
 
 export default function LanguageChanger() {
@@ -66,35 +54,11 @@ export default function LanguageChanger() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
-        <TooltipProvider>
-          {routing.locales.map((locale) => {
-            const note = TRANSLATION_NOTES[locale];
-            const name = LOCALE_NAMES[locale];
-
-            return (
-              <DropdownMenuItem
-                key={locale}
-                onClick={() => handleChange(locale)}
-              >
-                {note ? (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="flex items-center gap-2">{name}</div>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="bottom"
-                      className="mt-1 bg-popover text-popover-foreground border"
-                    >
-                      <p>{note}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                ) : (
-                  name
-                )}
-              </DropdownMenuItem>
-            );
-          })}
-        </TooltipProvider>
+        {routing.locales.map((locale) => (
+          <DropdownMenuItem key={locale} onClick={() => handleChange(locale)}>
+            {LOCALE_NAMES[locale]}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

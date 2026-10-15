@@ -11,7 +11,7 @@ import { LogoLoader } from "@/components/LogoLoader";
 
 const SEEN_KEY = "splash-seen";
 /** Never keep the screen up longer than this, even if the page is slow. */
-const MAX_WAIT_MS = 4000;
+const MAX_WAIT_MS = 2500;
 
 // Read once, before the flag is written, so the answer does not flip while the
 // splash is on screen. The server always assumes a first visit.
@@ -78,7 +78,7 @@ export function SplashScreen() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="splash-failsafe fixed inset-0 z-[100] flex items-center justify-center bg-background"
         >
-          <LogoLoader className="w-56 sm:w-72" onDone={onRevealed} />
+          <LogoLoader className="w-56 sm:w-72" duration={1.6} onDone={onRevealed} />
         </motion.div>
       )}
     </AnimatePresence>
