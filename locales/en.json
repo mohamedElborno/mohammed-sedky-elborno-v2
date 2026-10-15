@@ -1,27 +1,34 @@
 {
   "metadata": {
     "home": {
-      "title": "The Sheikh's Legacy",
-      "description": "The legacy of Sheikh Mohammed Sedky El-Borno: a digital archive of the life, books and writings of a great scholar, teacher and father.",
-      "keywords": "Sheikh Mohammed Sedky El-Borno, Dr Mohammed Sedky El-Borno, Mohammed Sedky El-Borno Abu Al-Harith, Encyclopedia of Islamic Legal Maxims, Islamic jurisprudence, usul al-fiqh, Islamic legal maxims, Islamic studies, Islamic books, scholars of Gaza, scholars of Palestine, Sunni jurisprudence, Islamic law, fiqh research, biography of Sheikh Mohammed Sedky El-Borno"
+      "title": "Sheikh Mohammed Sedky El-Borno | Biography, Books and Lectures",
+      "description": "Archive of Sheikh Mohammed Sedky El-Borno (Muhammad Sidqi al-Burnu), Gazan scholar and author of the Encyclopedia of Islamic Legal Maxims: life, books, videos.",
+      "keywords": "Sheikh Mohammed Sedky El-Borno, Muhammad Sidqi al-Burnu, Mohammed Sidqi Al-Borno, Mohammad Sidqi Burno, Encyclopedia of Islamic Legal Maxims, al-Wajiz fi Idah Qawaid al-Fiqh al-Kulliyyah, usul al-fiqh, Gaza scholar"
     },
     "biography": {
-      "title": "The Sheikh's Biography",
-      "description": "The life and scholarship of Sheikh Mohammed Sedky El-Borno.",
-      "keywords": "biography of Sheikh Mohammed Sedky El-Borno, life of Sheikh Mohammed Sedky El-Borno, Sheikh Mohammed Sedky, Abu Al-Harith, scholars of Gaza, scholars of Palestine, jurisprudence references"
+      "title": "Biography of Sheikh Mohammed Sedky El-Borno | Life and Scholarship",
+      "description": "Life of Sheikh Mohammed Sedky El-Borno (1930–2025): born in Gaza, studied at Al-Azhar and Damascus, taught legal maxims, wrote key works, died in Gaziantep.",
+      "keywords": "biography of Mohammed Sedky El-Borno, life of Muhammad Sidqi al-Burnu, Sheikh Mohammed Sedky El-Borno, death of Muhammad Sidqi Burno, Gaza scholar"
     },
     "books": {
-      "title": "The Sheikh's Books",
-      "description": "Explore the books of Dr Mohammed Sedky El-Borno on Islamic legal theory, a scholar who left a lasting mark on the field through his valuable works.",
-      "keywords": "Mohammed Sedky El-Borno, books of the Sheikh, Encyclopedia of Islamic Legal Maxims, usul al-fiqh, Islamic books, Islamic jurisprudence, Islamic studies, Sunni jurisprudence"
+      "title": "Books of Sheikh Mohammed Sedky El-Borno | Islamic Legal Maxims",
+      "description": "Books by Sheikh Mohammed Sedky El-Borno on usul al-fiqh and legal maxims, incl. the 13-volume Encyclopedia of Islamic Legal Maxims and al-Wajiz; read and download.",
+      "keywords": "books of Mohammed Sedky El-Borno, Muhammad Sidqi al-Burnu books, Encyclopedia of Islamic Legal Maxims, al-Wajiz, usul al-fiqh books"
     },
     "media": {
-      "title": "The Sheikh's Videos",
-      "description": "A gateway to recorded lecture series and poetry readings by Sheikh Mohammed Sedky El-Borno.",
-      "keywords": "videos of Sheikh Mohammed Sedky El-Borno, lessons, jurisprudence lectures, Islamic videos, lecture series, poems of Sheikh Mohammed Sedky El-Borno, lessons in usul al-fiqh"
+      "title": "Videos and Lectures of Sheikh Mohammed Sedky El-Borno",
+      "description": "Video gateway for Sheikh Mohammed Sedky El-Borno: lectures on usul al-fiqh and legal maxims, scholarly series and recorded poetry.",
+      "keywords": "videos of Mohammed Sedky El-Borno, Muhammad Sidqi al-Burnu lectures, legal maxims lessons, Sheikh Mohammed Sedky El-Borno YouTube"
     },
     "person": {
-      "name": "Mohammed Sedky El-Borno"
+      "name": "Mohammed Sedky El-Borno",
+      "description": "Gazan scholar of Islamic legal theory, fighter and university professor; the first to teach legal maxims in Saudi universities and author of the Encyclopedia of Islamic Legal Maxims.",
+      "jobTitle": "Islamic jurist and university professor",
+      "knowsAbout": "Usul al-fiqh, Islamic legal maxims, Islamic jurisprudence, Shariah-based governance"
+    },
+    "site": {
+      "name": "The Legacy of Sheikh Mohammed Sedky El-Borno",
+      "imageAlt": "Sheikh Mohammed Sedky El-Borno writing in his study"
     }
   },
 

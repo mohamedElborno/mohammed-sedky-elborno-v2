@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { AboutBlock } from "@/content/types";
 import { cn } from "@/lib/utils";
+import { OliveBranch } from "@/components/OliveBranch";
 
 // Everything here comes from the admin panel except the section title and the
 // button, which are fixed text in the translation files. A missing description
@@ -30,8 +31,12 @@ export function AboutSection({ about }: { about: AboutBlock | null }) {
   });
 
   return (
-    <section className="section-alt w-full py-16 md:py-24 lg:py-32">
-      <div className="container px-6 md:px-8">
+    <section className="section-alt relative w-full overflow-x-clip py-16 md:py-24 lg:py-32">
+      <OliveBranch
+        branch={1}
+        className="end-0 bottom-0 hidden w-[420px] opacity-15 md:block lg:w-[520px] rtl:-scale-x-100"
+      />
+      <div className="relative z-10 container px-6 md:px-8">
         <div
           className={cn(
             "grid items-center gap-12 lg:gap-20",

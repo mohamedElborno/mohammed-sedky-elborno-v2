@@ -1,42 +1,61 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import LayoutClient from "@/components/layout/LayoutClient";
+import { JsonLd } from "@/components/JsonLd";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import { routing, toLocale } from "@/i18n/routing";
 import { thmanyah } from "@/app/fonts/thmanyah";
+import {
+  SITE_URL,
+  graph,
+  personJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 import "../globals.css";
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#171717" },
+  ],
+};
+
+// Site-wide settings. Each page sets its own title, description, canonical
+// link, language alternates and share card (see lib/seo.ts).
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "metadata.home" });
+  const { locale: rawLocale } = await params;
+  const t = await getTranslations({
+    locale: toLocale(rawLocale),
+    namespace: "metadata",
+  });
 
   return {
-    metadataBase: new URL("https://mohammed-sedky-elborno.vercel.app"),
-    title: t("title"),
-    description: t("description"),
+    metadataBase: new URL(SITE_URL),
+    applicationName: t("site.name"),
+    authors: [{ name: t("person.name") }],
+    creator: t("person.name"),
+    category: "religion",
     icons: {
-      icon: "/logo.svg",
+      icon: [{ url: "/logo.svg", type: "image/svg+xml" }],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
     other: {
       "google-site-verification": "s0Dj8N7kfJLX9pGqhwkhmUP87lw9aKCWqXtXZCDbGIE",
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      siteName: t("title"),
-      images: [
-        {
-          url: "https://mohammed-sedky-elborno.vercel.app/photoGraph.png",
-          width: 1200,
-          height: 630,
-          alt: t("description"),
-        },
-      ],
     },
   };
 }
@@ -55,25 +74,27 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages();
-  const t = await getTranslations({ locale });
-  const person = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: t("metadata.person.name"),
-    description: t("biography.subtitle"),
-    image: "https://mohammed-sedky-elborno.vercel.app/photoGraph.png",
-    sameAs: ["https://www.youtube.com/@MohammedSidqiAlborno"],
-  };
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
   return (
-    <html lang={locale} className={thmanyah.variable} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={thmanyah.variable}
+      suppressHydrationWarning
+    >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            // "<" is escaped so translated text can never close the tag.
-            __html: JSON.stringify(person).replace(/</g, "\\u003c"),
-          }}
+        <JsonLd
+          data={graph(
+            websiteJsonLd(locale, t("site.name"), t("home.description")),
+            personJsonLd({
+              locale,
+              name: t("person.name"),
+              description: t("person.description"),
+              jobTitle: t("person.jobTitle"),
+              knowsAbout: t("person.knowsAbout"),
+            }),
+          )}
         />
       </head>
       <body className="overflow-x-hidden">

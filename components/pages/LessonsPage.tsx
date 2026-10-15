@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Link } from "@/i18n/navigation";
+import { OliveBranch } from "@/components/OliveBranch";
 import { LessonType } from "@/content/types";
 import { YouTubeThumb } from "@/components/YouTubeThumb";
 import { EmptyContent } from "../EmptyContent";
@@ -64,8 +65,13 @@ export const LessonsView = ({
   if (!lessonsPage) return <EmptyContent />;
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="container px-6 py-10 md:px-8 md:py-14">
+    <div className="relative flex flex-1 flex-col overflow-x-clip">
+      <OliveBranch
+        branch={5}
+        eager
+        className="end-0 top-0 hidden w-[420px] opacity-15 md:block lg:w-[520px] rtl:-scale-x-100"
+      />
+      <div className="relative z-10 container px-6 py-10 md:px-8 md:py-14">
         <Link
           href="/"
           className="mb-10 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

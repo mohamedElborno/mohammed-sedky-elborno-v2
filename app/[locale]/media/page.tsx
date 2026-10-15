@@ -1,48 +1,39 @@
-import { LessonsPage } from "@/components/pages/LessonsPage";
 import { preloadQuery } from "convex/nextjs";
-import { api } from "@/convex/_generated/api";
-import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { api } from "@/convex/_generated/api";
+import { LessonsPage } from "@/components/pages/LessonsPage";
+import { JsonLd } from "@/components/JsonLd";
 import { toLocale } from "@/i18n/routing";
+import { breadcrumbJsonLd, seoFor } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+}) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "metadata.media" });
-  return {
-    metadataBase: new URL("https://mohammed-sedky-elborno.vercel.app"),
-    title: t("title"),
-    description: t("description"),
-    keywords: t("keywords"),
-    icons: {
-      icon: "/logo.svg",
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      siteName: t("title"),
-      images: [
-        {
-          url: "https://mohammed-sedky-elborno.vercel.app/metaGraph.svg",
-          width: 1200,
-          height: 630,
-          alt: t("description"),
-        },
-      ],
-    },
-  };
+  return seoFor(locale, "media", "/media");
 }
+
 export default async function page({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const preloaded = await preloadQuery(api.content.getLessons, {
-    locale: toLocale(locale),
-  });
-  return <LessonsPage preloaded={preloaded} />;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
+  const preloaded = await preloadQuery(api.content.getLessons, { locale });
+  const tNav = await getTranslations({ locale, namespace: "navigation" });
+
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav("home"), path: "" },
+          { name: tNav("media"), path: "/media" },
+        ])}
+      />
+      <LessonsPage preloaded={preloaded} />
+    </>
+  );
 }

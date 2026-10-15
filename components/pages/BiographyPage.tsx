@@ -6,6 +6,7 @@ import { ArrowLeft, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { Link } from "@/i18n/navigation";
+import { OliveBranch } from "@/components/OliveBranch";
 import { api } from "@/convex/_generated/api";
 import type { Timeline } from "@/content/types";
 import { toLocale } from "@/i18n/routing";
@@ -26,7 +27,6 @@ export const BiographyPage = ({
   const tNav = useTranslations("navigation");
   const tCommon = useTranslations("common");
   const reduceMotion = useReducedMotion();
-  const isRtl = locale === "ar";
 
   if (!biography) return <EmptyContent />;
 
@@ -59,33 +59,20 @@ export const BiographyPage = ({
   // this wrapper into a scroll container.
   return (
     <div className="relative flex flex-1 flex-col overflow-x-clip">
-      <Image
-        src="/olive2.svg"
-        alt=""
-        width={400}
-        height={400}
-        className="pointer-events-none absolute -right-8 top-20 z-0 hidden h-auto -rotate-[9deg] -scale-x-[1] opacity-20 md:block dark:invert"
+      <OliveBranch
+        branch={3}
+        className="start-0 top-16 hidden w-[480px] opacity-20 md:block rtl:-scale-x-100"
       />
-      <Image
-        src="/olive10.svg"
-        alt=""
-        width={600}
-        height={600}
-        loading="eager"
-        className="pointer-events-none absolute -left-8 bottom-56 z-0 hidden h-auto w-[600px] max-w-none -rotate-[9deg] -scale-x-[1] opacity-20 lg:block dark:invert"
+      <OliveBranch
+        branch={5}
+        eager
+        className="end-0 bottom-40 hidden w-[560px] opacity-20 lg:block rtl:-scale-x-100"
       />
       {/* The small branch for phones. */}
-      <Image
-        src="/olive2.svg"
-        alt=""
-        width={200}
-        height={200}
-        loading="eager"
-        className={`pointer-events-none absolute top-10 z-0 h-auto w-[200px] max-w-none opacity-30 md:hidden dark:invert ${
-          isRtl
-            ? "-right-16 rotate-[220deg] scale-y-[-1]"
-            : "-left-16 -rotate-45"
-        }`}
+      <OliveBranch
+        branch={4}
+        eager
+        className="end-0 top-8 w-[170px] opacity-25 md:hidden rtl:-scale-x-100"
       />
 
       <div className="relative z-10 container px-6 py-10 md:px-8 md:py-14">

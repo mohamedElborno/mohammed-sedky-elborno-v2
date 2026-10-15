@@ -2,7 +2,7 @@
 import { Link as LocaleLink } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { OliveBranch } from "@/components/OliveBranch";
 import YouTubeModal from "./YouTubeModal";
 import { PhotoGallery } from "./PhotoGallery";
 import { FeaturedWorks } from "./FeaturedWorks";
@@ -13,31 +13,22 @@ import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 export const HomePage = ({
-  locale,
   preloaded,
   gallery,
 }: {
-  locale: string;
   preloaded: Preloaded<typeof api.content.getHomePage>;
   gallery: Preloaded<typeof api.content.getGallery>;
 }) => {
   const homePage = usePreloadedQuery(preloaded);
   const photos = usePreloadedQuery(gallery);
-  const isRtl = locale === "ar";
   const t = useTranslations("home");
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-x-hidden">
-      <Image
-        src="/olive1.svg"
-        alt=""
-        width={400}
-        height={400}
-        className={`h-auto overflow-hidden dark:invert z-0 absolute opacity-10 md:opacity-20 top-20  ${
-          isRtl ? "-left-1 scale-x-[-1]" : "-right-1 scale-x-[1]"
-        }`}
-        priority
-        loading="eager"
+      <OliveBranch
+        branch={2}
+        eager
+        className="end-0 top-0 w-[340px] opacity-15 md:w-[560px] md:opacity-25 rtl:-scale-x-100"
       />
       <main className="flex-1">
         <section className="pb-16 pt-12 md:pb-24 md:pt-20">

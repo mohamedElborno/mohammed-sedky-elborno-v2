@@ -13,13 +13,13 @@ const nextConfig: NextConfig = {
   // without this Next blocks the dev scripts and the page never starts.
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.16.*.*"],
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       ...(convexPattern
         ? [
             {
               protocol: convexPattern.protocol.replace(":", "") as
-                | "http"
-                | "https",
+                "http" | "https",
               hostname: convexPattern.hostname,
               port: convexPattern.port,
               pathname: "/api/storage/**",

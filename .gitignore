@@ -43,3 +43,6 @@ next-env.d.ts
 # windows
 desktop.ini
 Thumbs.db
+
+# Private migration exports, assets, plans and receipts
+/.migration-runs/

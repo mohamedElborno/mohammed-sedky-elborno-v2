@@ -1,39 +1,24 @@
-import { preloadQuery } from "convex/nextjs";
+import { preloadQuery, preloadedQueryResult } from "convex/nextjs";
+import { getTranslations } from "next-intl/server";
 import { api } from "@/convex/_generated/api";
 import { BooksPage } from "@/components/pages/BooksPage";
-import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { JsonLd } from "@/components/JsonLd";
 import { toLocale } from "@/i18n/routing";
+import {
+  PERSON_ID,
+  breadcrumbJsonLd,
+  graph,
+  pageUrl,
+  seoFor,
+} from "@/lib/seo";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+}) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "metadata.books" });
-  return {
-    metadataBase: new URL("https://mohammed-sedky-elborno.vercel.app"),
-    title: t("title"),
-    description: t("description"),
-    keywords: t("keywords"),
-    icons: {
-      icon: "/logo.svg",
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      siteName: t("title"),
-      images: [
-        {
-          url: "https://mohammed-sedky-elborno.vercel.app/metaGraph.svg",
-          width: 1200,
-          height: 630,
-          alt: t("description"),
-        },
-      ],
-    },
-  };
+  return seoFor(locale, "books", "/books");
 }
 
 export default async function page({
@@ -41,9 +26,47 @@ export default async function page({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const preloaded = await preloadQuery(api.content.getBooks, {
-    locale: toLocale(locale),
-  });
-  return <BooksPage locale={locale} preloaded={preloaded} />;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
+  const preloaded = await preloadQuery(api.content.getBooks, { locale });
+  const books = preloadedQueryResult(preloaded);
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  const tNav = await getTranslations({ locale, namespace: "navigation" });
+
+  return (
+    <>
+      <JsonLd
+        data={graph({
+          "@type": "CollectionPage",
+          url: pageUrl(locale, "/books"),
+          name: t("books.title"),
+          description: t("books.description"),
+          inLanguage: locale,
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: books.map((book, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "Book",
+                name: book.title,
+                ...(book.description && { description: book.description }),
+                ...(book.coverImage && { image: book.coverImage }),
+                ...(book.url && { url: book.url }),
+                inLanguage: "ar",
+                author: { "@id": PERSON_ID },
+              },
+            })),
+          },
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav("home"), path: "" },
+          { name: tNav("books"), path: "/books" },
+        ])}
+      />
+      <BooksPage locale={locale} preloaded={preloaded} />
+    </>
+  );
 }

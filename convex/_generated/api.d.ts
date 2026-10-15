@@ -11,6 +11,7 @@
 import type * as admin from "../admin.js";
 import type * as authz from "../authz.js";
 import type * as content from "../content.js";
+import type * as sanityMigration from "../sanityMigration.js";
 import type * as seed from "../seed.js";
 import type * as seedData_biography from "../seedData/biography.js";
 
@@ -24,6 +25,7 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   authz: typeof authz;
   content: typeof content;
+  sanityMigration: typeof sanityMigration;
   seed: typeof seed;
   "seedData/biography": typeof seedData_biography;
 }>;

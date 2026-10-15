@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "seed:biography": "convex run seed:biography"
+    "seed:biography": "convex run seed:biography",
+    "migrate:backup": "node scripts/sanity-migration/backup.mjs",
+    "migrate:sanity": "node scripts/sanity-migration/run.mjs",
+    "test:migration": "node --test scripts/sanity-migration/*.test.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.8.1",
