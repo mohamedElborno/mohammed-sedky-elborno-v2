@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogoLoader } from "@/components/LogoLoader";
 
@@ -28,8 +23,8 @@ const readSeenBefore = () => {
 };
 const subscribeToNothing = () => () => {};
 
-// Shown once per browser session: the logo is revealed, then the screen fades
-// out as soon as both the reveal and the page load have finished.
+// Shown once per browser session while the page loads, and gone the moment
+// loading finishes (or after MAX_WAIT_MS on a very slow connection).
 export function SplashScreen() {
   const seen = useSyncExternalStore(
     subscribeToNothing,
@@ -37,8 +32,6 @@ export function SplashScreen() {
     () => false,
   );
   const [finished, setFinished] = useState(false);
-  const [revealed, setRevealed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -47,7 +40,8 @@ export function SplashScreen() {
       // Storage can be blocked; the splash then simply shows every visit.
     }
 
-    const markLoaded = () => setLoaded(true);
+    // No minimum time: the screen goes as soon as the page has loaded.
+    const markLoaded = () => setFinished(true);
     if (document.readyState === "complete") {
       markLoaded();
     } else {
@@ -61,24 +55,16 @@ export function SplashScreen() {
     };
   }, []);
 
-  const onRevealed = useCallback(() => setRevealed(true), []);
-
-  useEffect(() => {
-    if (!revealed || !loaded) return;
-    const hold = window.setTimeout(() => setFinished(true), 350);
-    return () => window.clearTimeout(hold);
-  }, [revealed, loaded]);
-
   return (
     <AnimatePresence>
       {!seen && !finished && (
         <motion.div
           key="splash"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="splash-failsafe fixed inset-0 z-[100] flex items-center justify-center bg-background"
         >
-          <LogoLoader className="w-56 sm:w-72" duration={1.6} onDone={onRevealed} />
+          <LogoLoader className="w-56 sm:w-72" duration={1.6} />
         </motion.div>
       )}
     </AnimatePresence>
