@@ -4,6 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { thmanyah } from "@/app/fonts/thmanyah";
 import "../globals.css";
 
 export async function generateMetadata({
@@ -54,22 +55,24 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale });
+  const person = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: t("metadata.person.name"),
+    description: t("biography.subtitle"),
+    image: "https://mohammed-sedky-elborno.vercel.app/photoGraph.png",
+    sameAs: ["https://www.youtube.com/@MohammedSidqiAlborno"],
+  };
+
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className={thmanyah.variable} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "محمد صدقي البورنو",
-              description: "شيخ ومعلم وفقيه",
-              sameAs: [
-                "https://mohammed-sedky-elborno.vercel.app/photoGraph.png",
-                "https://www.youtube.com/@MohammedSidqiAlborno",
-              ],
-            }),
+            // "<" is escaped so translated text can never close the tag.
+            __html: JSON.stringify(person).replace(/</g, "\\u003c"),
           }}
         />
       </head>

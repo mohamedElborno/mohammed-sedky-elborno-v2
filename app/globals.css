@@ -6,7 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-thmanyah), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -41,11 +41,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 16px);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: 240 4.8% 95.9%;
+  --radius: 1.5rem;
+  --background: hsl(240 4.8% 95.9%);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -79,7 +81,7 @@
 }
 
 .dark {
-  --background: 0 0% 9%;
+  --background: hsl(0 0% 9%);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -126,11 +128,6 @@
   max-width: 1400px;
 }
 
-@theme {
-  --font-cairo: [ "var(--font-cairo)"];
-  --font-roboto: [ "var(--font-roboto)"];
-}
-
 ul:lang(ar) {
   list-style-position: inside;
 }
@@ -150,5 +147,14 @@ ul:lang(ar) {
   }
   .xs-w-fit {
     width: fit-content;
+  }
+}
+
+/* Squircle corners (smooth, continuous curves) wherever the browser supports
+   them; elsewhere the regular rounded corners are used. Fully round elements
+   (rounded-full) are left alone so circles stay circles. */
+@supports (corner-shape: squircle) {
+  *:not([class*="rounded-full"]) {
+    corner-shape: squircle;
   }
 }

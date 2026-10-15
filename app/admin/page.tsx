@@ -22,6 +22,11 @@ const sections = [
     title: "المقاطع والدروس",
     description: "صفحة المقاطع وقائمة الدروس المرئية",
   },
+  {
+    href: "/admin/gallery",
+    title: "ألبوم الصور",
+    description: "صور الألبوم التي تظهر في الصفحة الرئيسية مع وصف لكل صورة",
+  },
 ];
 
 export default function AdminHome() {

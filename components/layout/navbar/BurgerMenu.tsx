@@ -1,3 +1,6 @@
+import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
+
 export const BurgerMenu = ({
   isOpen,
   toggleMenu,
@@ -5,38 +8,30 @@ export const BurgerMenu = ({
   isOpen: boolean;
   toggleMenu: () => void;
 }) => {
-  const menuLabel = isOpen
-    ? "menü kapat | القائمة مغلقة"
-    : "menü açık | القائمة مفتوحة";
+  const t = useTranslations("common");
+  const line =
+    "absolute left-1/2 top-1/2 h-[1.5px] w-[18px] -translate-x-1/2 rounded-full bg-foreground transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]";
+
   return (
-    <div className="flex lg:hidden items-center">
-      <button
-        className="flex flex-col space-y-1"
-        onClick={toggleMenu}
-        aria-label={menuLabel}
-      >
-        <span
-          className={`w-6 h-[2px] rounded-full bg-black dark:bg-white transition-all duration-300 ${
-            isOpen
-              ? `rotate-[45deg] transition-all duration-300 translate-y-[3px] bg-red-900`
-              : ``
-          }`}
-        ></span>
-        <span
-          className={
-            isOpen
-              ? `hidden transition-all duration-300`
-              : `w-6 h-[2px] rounded-full bg-black dark:bg-white transition-all duration-300`
-          }
-        ></span>
-        <span
-          className={`w-6 h-[2px] rounded-full bg-black dark:bg-white transition-all duration-300 ${
-            isOpen
-              ? `rotate-[-45deg] transition-all duration-300 -translate-y-[3px] bg-red-900`
-              : ``
-          }`}
-        ></span>
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={toggleMenu}
+      aria-label={isOpen ? t("closeMenu") : t("openMenu")}
+      aria-expanded={isOpen}
+      className="relative size-9 rounded-full transition-colors hover:bg-foreground/5 lg:hidden"
+    >
+      <span
+        className={cn(
+          line,
+          isOpen ? "-translate-y-1/2 rotate-45" : "-translate-y-[4px]",
+        )}
+      />
+      <span
+        className={cn(
+          line,
+          isOpen ? "-translate-y-1/2 -rotate-45" : "translate-y-[3px]",
+        )}
+      />
+    </button>
   );
 };

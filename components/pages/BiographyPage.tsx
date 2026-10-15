@@ -27,9 +27,15 @@ export const BiographyPage = ({
   const biography = usePreloadedQuery(preloaded);
   const t = useTranslations("biography");
   const tNav = useTranslations("navigation");
+  const tCommon = useTranslations("common");
   const isRtl = locale === "tr";
 
   if (!biography) return <EmptyContent />;
+
+  const lifespan = [biography.card.birthDate, biography.card.deathDate]
+    .map((date) => formatLocalizedDate(date, toLocale(locale)))
+    .filter(Boolean)
+    .join(" - ");
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden">
@@ -96,7 +102,7 @@ export const BiographyPage = ({
                   }
                   width={600}
                   height={800}
-                  alt="Portrait of Sheikh"
+                  alt={t("portraitAlt")}
                   className="w-full h-[400px] object-top object-cover rounded-md"
                 />
               </div>
@@ -106,20 +112,12 @@ export const BiographyPage = ({
                 </h3>
                 <Separator />
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span>
-                      {formatLocalizedDate(
-                        biography?.card?.birthDate,
-                        toLocale(locale)
-                      )}{" "}
-                      -{" "}
-                      {formatLocalizedDate(
-                        biography?.card?.deathDate,
-                        toLocale(locale)
-                      )}
-                    </span>
-                  </div>
+                  {lifespan && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <span>{lifespan}</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 text-sm">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                     <span>{biography?.card?.birthPlace}</span>
@@ -151,7 +149,7 @@ export const BiographyPage = ({
                     <div className="font-medium">
                       {item?.date
                         ? formatYearOnly(item.date)
-                        : "تاريخ غير متوفر"}
+                        : tCommon("dateUnavailable")}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {item?.title}

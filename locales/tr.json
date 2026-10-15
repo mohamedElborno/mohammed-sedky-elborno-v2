@@ -19,6 +19,30 @@
       "title": "Şeyh'in Videoları",
       "description": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı",
       "keywords": "Şeyh Muhammed Sedki El-Borno'nun Videoları, Şeyh Muhammed Sedki'nin Dersleri, Fıkhi Konuşmalar, İslami Videolar, Bilimsel Videolar, İlmi Silsileler, Şeyh Muhammed Sedki El-Borno'nun Şiirleri, Usûl-i Fıkıh Dersleri, İslami Videolar"
+    },
+    "person": {
+      "name": "Muhammed Sedki El-Borno"
+    }
+  },
+
+  "common": {
+    "emptyContent": "Henüz yayınlanmış içerik yok.",
+    "scrollToTop": "Başa dön",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat",
+    "logoAlt": "Şeyh Mirası logosu",
+    "changeLanguage": "Dili değiştir",
+    "dateUnavailable": "Tarih mevcut değil",
+    "theme": {
+      "change": "Temayı değiştir",
+      "light": "Temayı koyu moda geçir",
+      "dark": "Temayı açık moda geçir"
+    },
+    "video": {
+      "play": "Videoyu oynat",
+      "thumbnailAlt": "Video küçük resmi",
+      "title": "Şeyhin YouTube videosu",
+      "close": "Videoyu kapat"
     }
   },
 
@@ -28,18 +52,15 @@
     "biography": "Biyografi",
     "books": "Kitaplar",
     "media": "Şeyh'in Videoları",
-    "menu": "Menü",
-    "auto": "otomatik",
     "backToHome": "Ana Sayfaya Geçin"
   },
 
   "home": {
     "hero": {
-      "title": "Şeyh Muhammed Sedki El-Borno'in Mirasını Korumak",
+      "title": "Şeyh Muhammed Sedki El-Borno'nun Mirasını Korumak",
       "description": "Saygıdeğer bir alim ve manevi rehberin hayatı, öğretileri ve edebi katkılarının dijital arşivi.",
       "primaryButton": "Hayatını Öğren",
-      "secondaryButton": "Eserlerini Keşfet",
-      "imageAlt": "Şeyh'in Portresi"
+      "secondaryButton": "Eserlerini Keşfet"
     },
     "featuredWorks": {
       "subtitle": "Öne Çıkan Eserler",
@@ -47,18 +68,6 @@
       "description": "Sayısız hayata dokunan en etkili kitapları, şiirleri ve yazıları keşfedin."
     },
     "categories": {
-      "books": {
-        "title": "Kitaplar",
-        "description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler."
-      },
-      "writings": {
-        "title": "Yazılar",
-        "description": "Çağdaş konular ve geleneksel metinler üzerine denemeler, makaleler ve yorumlar."
-      },
-      "poems": {
-        "title": "Şiirler",
-        "description": "İnanç ve adanmışlığın özünü yakalayan manevi ve düşündürücü şiirler."
-      },
       "viewCollection": "Koleksiyonu Görüntüle"
     },
     "about": {
@@ -74,32 +83,21 @@
     "contribute": {
       "title": "Arşive Katkıda Bulunun",
       "description": "Şeyh Muhammed Sedki El-Borno ile ilgili materyalleri, çevirileri veya anıları paylaşarak bu koleksiyonu korumamıza ve genişletmemize yardımcı olun.",
-      "button": "Bizimle İletişime Geçin"
+      "button": "Bizimle İletişime Geçin",
+      "emailSubject": "Soru",
+      "emailBody": "Esselâmu aleyküm ve rahmetullahi ve berekâtuh"
     }
   },
 
   "footer": {
-    "siteTitle": "Şeyh Mirası",
-    "tagline": "Şeyh Muhammed Sedki El-Borno'in bilgeliğini ve katkılarını korumaya ve paylaşmaya adanmıştır.",
-    "copyright": "Hazırlayan: Muhammed Abdurrahman El-Borno",
-    "explore": {
-      "title": "Keşfet",
-      "home": "Ana Sayfa",
-      "biography": "Biyografi",
-      "books": "Kitaplar",
-      "lessons": "Dersler",
-      "poems": "Şiirler"
-    },
-    "connect": {
-      "title": "Bağlantı",
-      "contact": "İletişim"
-    }
+    "copyright": "Hazırlayan: Muhammed Abdurrahman El-Borno"
   },
 
   "biography": {
     "title": "Şeyh Muhammed Sedki El-Borno'nun Biyografisi",
     "subtitle": "Şeyh, öğretmen ve fakih",
-    "timeline": "Tarih Zamanı"
+    "timeline": "Tarih Zamanı",
+    "portraitAlt": "Şeyh Muhammed Sedki El-Borno'nun fotoğrafı"
   },
 
   "media": {
@@ -111,16 +109,18 @@
     "title": "Kitaplar",
     "description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler.",
     "bookNotFoundPDF": "Kitabın PDF dosyası bulunamadı",
-    "bookRead": "Kitabı Oku ve Yükle"
+    "bookRead": "Kitabı Oku ve Yükle",
+    "coverAlt": "{title} kitabının kapağı",
+    "downloadLabel": "{title} kitabını indir"
   },
 
-  "admin": {
-    "title": "Yönetim Paneli",
-    "signIn": "Giriş Yap",
-    "signOut": "Çıkış Yap",
-    "save": "Kaydet",
-    "saving": "Kaydediliyor...",
-    "saved": "Kaydedildi",
-    "cancel": "İptal"
+  "gallery": {
+    "title": "Fotoğraf Albümü",
+    "description": "Şeyhin hayatından ve yolculuğundan kareler.",
+    "open": "{index}. fotoğrafı görüntüle",
+    "close": "Kapat",
+    "previous": "Önceki fotoğraf",
+    "next": "Sonraki fotoğraf",
+    "counter": "{current} / {total}"
   }
 }

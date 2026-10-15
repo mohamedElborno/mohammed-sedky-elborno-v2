@@ -9,8 +9,10 @@ export default async function Home({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const preloaded = await preloadQuery(api.content.getHomePage, {
-    locale: toLocale(locale),
-  });
-  return <HomePage locale={locale} preloaded={preloaded} />;
+  const args = { locale: toLocale(locale) };
+  const [preloaded, gallery] = await Promise.all([
+    preloadQuery(api.content.getHomePage, args),
+    preloadQuery(api.content.getGallery, args),
+  ]);
+  return <HomePage locale={locale} preloaded={preloaded} gallery={gallery} />;
 }

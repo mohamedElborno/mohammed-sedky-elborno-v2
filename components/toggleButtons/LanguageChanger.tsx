@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import {
@@ -18,16 +18,12 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 
+// Each language is listed by its own name (and its note is in that language),
+// so a reader can find theirs whatever language the page is in right now.
 const LOCALE_NAMES: Record<Locale, string> = {
   ar: "العربية",
   tr: "Türkçe",
   en: "English",
-};
-
-const SWITCH_LABELS: Record<Locale, string> = {
-  ar: "تغيير اللغة إلى العربية",
-  tr: "Dili Türkçe'ye Değiştir",
-  en: "Switch language to English",
 };
 
 // Arabic is the source language; the others are machine translated.
@@ -40,6 +36,7 @@ export default function LanguageChanger() {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale() as Locale;
+  const t = useTranslations("common");
 
   // Switching is a client-side navigation: keep the reader where they were
   // instead of jumping back to the top, which made it feel like a reload.
@@ -62,7 +59,7 @@ export default function LanguageChanger() {
         <Button
           variant="ghost"
           size="icon"
-          aria-label={SWITCH_LABELS[currentLocale] ?? "تغيير اللغة"}
+          aria-label={t("changeLanguage")}
         >
           <Languages className="scale-125" />
         </Button>

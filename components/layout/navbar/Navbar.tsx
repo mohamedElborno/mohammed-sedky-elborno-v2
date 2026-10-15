@@ -5,6 +5,7 @@ import { NavbarDesktop } from "./NavbarDesktop";
 import { useTranslations } from "next-intl";
 import { NavparDataType } from "@/content/types";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,10 +39,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 24);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -65,18 +67,26 @@ export default function Navbar() {
   ];
 
   return (
-    <div
-      ref={navRef}
-      className={`fixed top-0 left-0 right-0 flex items-center z-50 w-full transition-all mx-auto ${scrolled ? "shadow-md max-w-[90%] mx-auto mt-5 rounded-3xl duration-300 min-h-16 bg-popover/30 backdrop-blur-lg bg-opacity-20 py-3 border-none" : "bg-opacity-0 backdrop-blur-lg min-h-20 border-b py-5"}`}
-    >
-      <div className="flex flex-col justify-center items-center w-full">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
+      <div
+        ref={navRef}
+        data-scrolled={scrolled}
+        className={cn(
+          "pointer-events-auto flex flex-col items-center border-border/50 bg-background/70 backdrop-blur-xl backdrop-saturate-150",
+          "transition-[width,margin,border-radius,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          scrolled
+            ? "mt-3 w-[min(62rem,calc(100%-1.5rem))] rounded-[1.75rem] border shadow-lg shadow-black/5"
+            : "mt-0 w-full rounded-none border-b",
+        )}
+      >
         <NavbarDesktop
           navbarData={navbarData}
           isOpen={isOpen}
+          scrolled={scrolled}
           toggleMenu={toggleMenu}
         />
         <NavbarMobile boolean={isOpen} navbarData={navbarData} />
       </div>
-    </div>
+    </header>
   );
 }

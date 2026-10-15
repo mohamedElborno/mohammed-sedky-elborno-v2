@@ -124,3 +124,19 @@ export const getLessons = query({
     };
   },
 });
+
+export const getGallery = query({
+  args: { locale: localeValidator },
+  handler: async (ctx, { locale }) => {
+    const doc = await ctx.db.query("gallery").first();
+    if (!doc) return [];
+
+    const photos = await Promise.all(
+      doc.photos.map(async (photo) => ({
+        image: await imageUrl(ctx, photo.image),
+        caption: text(photo.caption, locale),
+      })),
+    );
+    return photos.filter((photo) => photo.image !== "");
+  },
+});

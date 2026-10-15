@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 /**
  * Only real content lives in the database: images, links, and the repeatable
- * lists (books, timeline, lessons, work cards). Page headings, descriptions,
+ * lists (books, timeline, lessons, work cards, gallery photos). Page headings, descriptions,
  * button labels and the quote are static UI text and live in locales/*.json.
  */
 
@@ -46,6 +46,15 @@ export const biographyCard = v.object({
   publishedWorks: v.array(v.id("books")),
 });
 
+export const galleryPhoto = v.object({
+  image: imageId,
+  caption: localized,
+});
+
+export const galleryFields = {
+  photos: v.array(galleryPhoto),
+};
+
 export const homePageFields = {
   video: v.string(),
   image: imageId,
@@ -75,10 +84,11 @@ export const bookFields = {
 };
 
 export default defineSchema({
-  // homePage, biography and lessonsPage are singletons: only one document each.
+  // homePage, biography, lessonsPage and gallery are singletons: only one document each.
   homePage: defineTable(homePageFields),
   biography: defineTable(biographyFields),
   lessonsPage: defineTable(lessonsPageFields),
+  gallery: defineTable(galleryFields),
   books: defineTable(bookFields)
     .index("by_order", ["order"])
     .index("by_slug", ["slug"]),

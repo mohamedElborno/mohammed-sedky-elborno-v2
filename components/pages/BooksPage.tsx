@@ -52,7 +52,7 @@ export const BooksPage = ({
                   }
                   height={400}
                   width={300}
-                  alt={`غلاف كتاب ${book?.title}`}
+                  alt={t("coverAlt", { title: book?.title })}
                   className="w-full h-[400px] p-4 py-0 rounded-2xl"
                 />
 
@@ -77,7 +77,7 @@ export const BooksPage = ({
                         rel="noopener noreferrer"
                       >
                         <Button
-                          aria-label={`تحميل كتاب ${book?.title}`}
+                          aria-label={t("downloadLabel", { title: book?.title })}
                           className="rounded-lg cursor-pointer"
                         >
                           {t("bookRead")}

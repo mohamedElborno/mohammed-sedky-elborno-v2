@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
+import { thmanyah } from "@/app/fonts/thmanyah";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "@/components/providers/ConvexClientProvider";
 import "../globals.css";
-
-const cairo = Cairo({
-  subsets: ["arabic"],
-  weight: ["400", "700"],
-  variable: "--font-cairo",
-});
 
 export const metadata: Metadata = {
   title: "لوحة التحكم",
@@ -23,8 +17,8 @@ export default function AdminLayout({
   );
 
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className={`${cairo.variable} font-cairo`}>
+    <html lang="ar" dir="rtl" className={thmanyah.variable} suppressHydrationWarning>
+      <body>
         {clerkConfigured ? (
           <ClerkProvider
             signInUrl="/admin/sign-in"

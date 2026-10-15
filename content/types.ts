@@ -64,3 +64,8 @@ export interface LessonsPageType {
   url: string;
   lessons: LessonType[];
 }
+
+export interface GalleryPhoto {
+  image: string;
+  caption: string;
+}

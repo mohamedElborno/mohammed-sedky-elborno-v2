@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { BurgerMenu } from "./BurgerMenu";
 import { ModeToggle } from "@/components/toggleButtons/ModeToggle";
 import LanguageChanger from "@/components/toggleButtons/LanguageChanger";
@@ -7,40 +9,65 @@ import { NavparDataType } from "@/content/types";
 
 export const NavbarDesktop = ({
   isOpen,
+  scrolled,
   toggleMenu,
   navbarData,
 }: {
   isOpen: boolean;
+  scrolled: boolean;
   toggleMenu: () => void;
   navbarData: NavparDataType[];
 }) => {
+  const t = useTranslations("common");
+  const pathname = usePathname();
   return (
-    <div className="max-w-[1400px] mx-auto flex items-center justify-between w-full text-lg font-normal">
+    <div
+      className={cn(
+        "mx-auto flex w-full max-w-[1400px] items-center justify-between transition-[height] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+        scrolled ? "h-16 lg:h-14" : "h-[4.25rem] lg:h-16",
+      )}
+    >
       <Link href="/" className="mx-6 md:mx-8">
         <Image
           src="/logo.svg"
-          alt="Logo"
+          alt={t("logoAlt")}
           width={100}
           height={100}
-          className="dark:invert h-10 w-auto hover:scale-105 hover:drop-shadow transition-all duration-300"
+          className={cn(
+            "w-auto transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] dark:invert",
+            scrolled ? "h-7" : "h-9",
+          )}
         />
       </Link>
       <div className="hidden lg:flex">
-        <ul className="flex items-center gap-8">
-          {navbarData.map(
-            (item: { link: string; title: string }, index: number) => (
-              <li
-                className="hover:text-zinc-600 transition duration-100"
-                key={index}
-              >
-                <Link href={item.link}>{item.title}</Link>
+        <ul className="flex items-center gap-1">
+          {navbarData.map((item: { link: string; title: string }) => {
+            const active =
+              item.link === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.link);
+            return (
+              <li key={item.link}>
+                <Link
+                  href={item.link}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "px-4 py-1.5 text-sm font-medium transition-[color,text-shadow] duration-300",
+                    active
+                      ? "text-foreground [text-shadow:0_0_14px_color-mix(in_oklab,var(--foreground)_40%,transparent)]"
+                      : "text-foreground/50 hover:text-foreground/90",
+                  )}
+                >
+
+                  {item.title}
+                </Link>
               </li>
-            )
-          )}
+            );
+          })}
         </ul>
       </div>
-      <div className="flex items-center space-x-2 mx-6 gap-3 sm:gap-4">
-        <div className="flex items-center space-x-2 gap-1 sm:gap-2">
+      <div className="mx-4 flex items-center gap-1 sm:mx-6 sm:gap-2">
+        <div className="flex items-center gap-1">
           <LanguageChanger />
           <ModeToggle />
         </div>

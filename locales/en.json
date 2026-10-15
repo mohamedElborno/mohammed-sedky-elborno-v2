@@ -19,6 +19,30 @@
       "title": "The Sheikh's Videos",
       "description": "A gateway to recorded lecture series and poetry readings by Sheikh Mohammed Sedky El-Borno.",
       "keywords": "videos of Sheikh Mohammed Sedky El-Borno, lessons, jurisprudence lectures, Islamic videos, lecture series, poems of Sheikh Mohammed Sedky El-Borno, lessons in usul al-fiqh"
+    },
+    "person": {
+      "name": "Mohammed Sedky El-Borno"
+    }
+  },
+
+  "common": {
+    "emptyContent": "No content has been published yet.",
+    "scrollToTop": "Back to top",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "logoAlt": "The Sheikh's Legacy logo",
+    "changeLanguage": "Change language",
+    "dateUnavailable": "Date unavailable",
+    "theme": {
+      "change": "Change theme",
+      "light": "Switch to dark theme",
+      "dark": "Switch to light theme"
+    },
+    "video": {
+      "play": "Play video",
+      "thumbnailAlt": "Video thumbnail",
+      "title": "The Sheikh's YouTube video",
+      "close": "Close video"
     }
   },
 
@@ -28,8 +52,6 @@
     "biography": "Biography",
     "books": "Books",
     "media": "Videos",
-    "menu": "Menu",
-    "auto": "Auto",
     "backToHome": "Back to home"
   },
 
@@ -38,8 +60,7 @@
       "title": "Sheikh Mohammed Sedky El-Borno – A Life of Scholarship",
       "description": "A digital archive of the life, books and writings of a great scholar, teacher and father.",
       "primaryButton": "Discover his life",
-      "secondaryButton": "Explore his works",
-      "imageAlt": "Portrait of the Sheikh"
+      "secondaryButton": "Explore his works"
     },
     "featuredWorks": {
       "subtitle": "The Sheikh's works",
@@ -47,18 +68,6 @@
       "description": "Discover the books, poems and articles that have touched countless lives."
     },
     "categories": {
-      "books": {
-        "title": "Books",
-        "description": "Comprehensive works on Islamic jurisprudence."
-      },
-      "writings": {
-        "title": "Articles",
-        "description": "Articles and commentary on contemporary questions and classical texts."
-      },
-      "poems": {
-        "title": "Poems",
-        "description": "Spiritual and reflective poetry expressing the essence of faith and devotion."
-      },
       "viewCollection": "View collection"
     },
     "about": {
@@ -74,32 +83,21 @@
     "contribute": {
       "title": "Contribute to the archive",
       "description": "Help us preserve and expand this collection by sharing materials, translations or memories related to Sheikh Mohammed Sedky El-Borno.",
-      "button": "Get in touch"
+      "button": "Get in touch",
+      "emailSubject": "Inquiry",
+      "emailBody": "Peace be upon you"
     }
   },
 
   "footer": {
-    "siteTitle": "The Sheikh's Legacy",
-    "tagline": "Dedicated to preserving and sharing the wisdom and contributions of Sheikh Mohammed Sedky El-Borno.",
-    "copyright": "Prepared by Mohammed Abdulrahman El-Borno",
-    "explore": {
-      "title": "Explore",
-      "home": "Home",
-      "biography": "Biography",
-      "books": "Books",
-      "lessons": "Lessons",
-      "poems": "Poems"
-    },
-    "connect": {
-      "title": "Connect",
-      "contact": "Contact us"
-    }
+    "copyright": "Prepared by Mohammed Abdulrahman El-Borno"
   },
 
   "biography": {
     "title": "Biography of Sheikh Mohammed Sedky El-Borno",
     "subtitle": "Scholar, teacher and jurist",
-    "timeline": "Timeline"
+    "timeline": "Timeline",
+    "portraitAlt": "Portrait of Sheikh Mohammed Sedky El-Borno"
   },
 
   "media": {
@@ -111,16 +109,18 @@
     "title": "Books",
     "description": "Comprehensive works on Islamic jurisprudence.",
     "bookNotFoundPDF": "No PDF copy is available for this book",
-    "bookRead": "Read and download the book"
+    "bookRead": "Read and download the book",
+    "coverAlt": "Cover of {title}",
+    "downloadLabel": "Download {title}"
   },
 
-  "admin": {
-    "title": "Admin panel",
-    "signIn": "Sign in",
-    "signOut": "Sign out",
-    "save": "Save",
-    "saving": "Saving...",
-    "saved": "Saved",
-    "cancel": "Cancel"
+  "gallery": {
+    "title": "Photo Album",
+    "description": "Moments from the Sheikh's life and journey.",
+    "open": "View photo {index}",
+    "close": "Close",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "counter": "{current} / {total}"
   }
 }

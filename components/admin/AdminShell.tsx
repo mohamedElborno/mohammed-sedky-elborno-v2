@@ -14,6 +14,7 @@ const links = [
   { href: "/admin/biography", label: "السيرة الذاتية" },
   { href: "/admin/books", label: "الكتب" },
   { href: "/admin/lessons", label: "المقاطع والدروس" },
+  { href: "/admin/gallery", label: "ألبوم الصور" },
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {

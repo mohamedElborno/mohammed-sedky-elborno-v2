@@ -5,6 +5,7 @@ import { requireAdmin } from "./authz";
 import {
   bookFields,
   biographyFields,
+  galleryFields,
   homePageFields,
   lessonsPageFields,
 } from "./schema";
@@ -32,6 +33,9 @@ const homePageImages = (doc: Doc<"homePage"> | { image: StorageId | null; worksC
 const lessonsPageImages = (
   doc: Doc<"lessonsPage"> | { image: StorageId | null; lessons: { image: StorageId | null }[] },
 ) => [doc.image, ...doc.lessons.map((lesson) => lesson.image)];
+
+const galleryImages = (photos: { image: StorageId | null }[]) =>
+  photos.map((photo) => photo.image);
 
 export const generateUploadUrl = mutation({
   args: {},
@@ -128,6 +132,32 @@ export const saveLessonsPage = mutation({
       return existing._id;
     }
     return ctx.db.insert("lessonsPage", data);
+  },
+});
+
+export const getGallery = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    return ctx.db.query("gallery").first();
+  },
+});
+
+export const saveGallery = mutation({
+  args: galleryFields,
+  handler: async (ctx, data) => {
+    await requireAdmin(ctx);
+    const existing = await ctx.db.query("gallery").first();
+    if (existing) {
+      await ctx.db.patch(existing._id, data);
+      await deleteUnusedFiles(
+        ctx,
+        galleryImages(existing.photos),
+        galleryImages(data.photos),
+      );
+      return existing._id;
+    }
+    return ctx.db.insert("gallery", data);
   },
 });
 

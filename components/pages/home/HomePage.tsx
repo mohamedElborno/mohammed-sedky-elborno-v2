@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
+import { Link as LocaleLink } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import YouTubeModal from "./YouTubeModal";
+import { PhotoGallery } from "./PhotoGallery";
 import { useTranslations } from "next-intl";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -13,11 +15,14 @@ import { RichText } from "@/components/BlockStyle";
 export const HomePage = ({
   locale,
   preloaded,
+  gallery,
 }: {
   locale: string;
   preloaded: Preloaded<typeof api.content.getHomePage>;
+  gallery: Preloaded<typeof api.content.getGallery>;
 }) => {
   const homePage = usePreloadedQuery(preloaded);
+  const photos = usePreloadedQuery(gallery);
   const isRtl = locale === "ar";
   const t = useTranslations("home");
 
@@ -35,50 +40,55 @@ export const HomePage = ({
         loading="eager"
       />
       <main className="flex-1">
-        <section className="flex h-full items-center justify-center pb-12 md:pb-24">
-          <div className="container flex flex-col w-full h-full space-y-8 px-6 md:px-8">
-            <div className="flex flex-col gap-4 md:gap-10 mt-12">
-              <div className={isRtl ? "" : " max-w-[1000px]"}>
-                <h1
-                  className={`text-3xl font-bold sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]`}
-                >
+        <section className="pb-16 pt-12 md:pb-24 md:pt-20">
+          <div className="container px-6 md:px-8">
+            <div
+              className={`grid items-center gap-12 lg:gap-16 ${
+                homePage?.video ? "lg:grid-cols-2" : ""
+              }`}
+            >
+              <div className="relative z-10 flex flex-col items-start gap-6">
+                <h1 className="text-balance text-4xl font-bold leading-[1.25] sm:text-5xl xl:text-6xl">
                   {t("hero.title")}
                 </h1>
-              </div>
-              <div className={isRtl ? "order-1" : ""}>
-                <p
-                  className={`max-w-[700px] text-muted-foreground text-lg md:text-2xl`}
-                >
+                <p className="max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground md:text-xl">
                   {t("hero.description")}
                 </p>
-                <div className="flex flex-col w-fit xs-w-full xs-flex-row mt-4 space-y-2 xs-space-y-0 -mb-2 sm:mb-0">
-                  <Link
-                    href={`/${locale}/biography`}
-                    className="z-10 flex h-9 w-fit items-center justify-center rounded-md bg-primary px-4 py-2 text-md font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="h-10 rounded-xl bg-foreground/10 px-5 text-sm font-medium text-foreground backdrop-blur-xl hover:bg-foreground/15 dark:hover:bg-foreground/15"
                   >
-                    {t("hero.primaryButton")}
-                    {!isRtl && <ArrowRight className="ms-2 h-4 w-4" />}
-                    {isRtl && (
-                      <ArrowRight className="ms-2 h-4 w-4 rotate-180" />
-                    )}
-                  </Link>
-                  <Link
-                    href={`/${locale}/books`}
-                    className="z-10 flex h-9 xs-mx-4 w-full xs-w-fit items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-md font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                    <LocaleLink href="/biography">
+                      {t("hero.primaryButton")}
+                      <ArrowRight className="size-4 rtl:rotate-180" />
+                    </LocaleLink>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="h-10 rounded-xl px-4 text-sm font-medium text-foreground/70 hover:bg-foreground/5 hover:text-foreground dark:hover:bg-foreground/5"
                   >
-                    {t("hero.secondaryButton")}
-                  </Link>
+                    <LocaleLink href="/books">
+                      {t("hero.secondaryButton")}
+                    </LocaleLink>
+                  </Button>
                 </div>
               </div>
+              {homePage?.video && (
+                <div className="mx-auto w-full max-w-xl lg:max-w-none">
+                  <YouTubeModal
+                    videoUrl={homePage.video}
+                    thumbnailUrl={homePage.image}
+                  />
+                </div>
+              )}
             </div>
-            {homePage?.video && (
-              <YouTubeModal
-                videoUrl={homePage.video}
-                thumbnailUrl={homePage.image}
-              />
-            )}
+
           </div>
         </section>
+        <PhotoGallery photos={photos} />
         <section className="w-full py-12 md:py-24 dark:bg-muted/30 bg-muted/60 relative">
           <Image
             src="/olive2.svg"
@@ -114,7 +124,7 @@ export const HomePage = ({
                         src={item?.icon || "/logo.svg"}
                         width={100}
                         height={100}
-                        alt={`Category ${index}`}
+                        alt=""
                         className="h-8 w-8 object-cover dark:invert"
                       />
                     </div>
@@ -192,7 +202,9 @@ export const HomePage = ({
                 </p>
               </div>
               <div className="mx-auto w-full max-w-sm space-y-2">
-                <Link href="mailto:elborno.family@gmail.com?subject=استفسار&body=السلام عليكم ورحمة الله وبركاته">
+                <Link
+                  href={`mailto:elborno.family@gmail.com?subject=${encodeURIComponent(t("contribute.emailSubject"))}&body=${encodeURIComponent(t("contribute.emailBody"))}`}
+                >
                   <Button className="w-full cursor-pointer">
                     {t("contribute.button")}
                   </Button>

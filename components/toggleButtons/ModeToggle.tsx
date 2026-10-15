@@ -1,62 +1,51 @@
 "use client";
 
 import * as React from "react";
-import { CogIcon, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-function themeLabel(theme: string | undefined) {
-  switch (theme) {
-    case "light":
-      return "تغيير الثيم إلى الوضع الداكن";
-    case "dark":
-      return "تغيير الثيم إلى الوضع الفاتح";
-    case "system":
-      return "تغيير الثيم إلى وضع النظام";
-    default:
-      return "تغيير الثيم";
-  }
-}
+import { cn } from "@/lib/utils";
 
 const subscribeToNothing = () => () => {};
 
+// "System" is only the starting point (the theme follows the visitor's OS until
+// they choose); the button itself just flips between light and dark.
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
-  // The stored theme is unknown on the server, so the label only becomes
-  // specific after hydration; otherwise the markup would not match.
+  const { resolvedTheme, setTheme } = useTheme();
+  const t = useTranslations("common.theme");
+  // The resolved theme is unknown on the server, so it is only used after
+  // hydration; otherwise the markup would not match.
   const hydrated = React.useSyncExternalStore(
     subscribeToNothing,
     () => true,
     () => false,
   );
-  const ariaLabel = hydrated ? themeLabel(theme) : themeLabel(undefined);
+  const isDark = hydrated && resolvedTheme === "dark";
+  const ariaLabel = hydrated ? t(isDark ? "dark" : "light") : t("change");
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={ariaLabel}>
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-125 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-125" />
-          <span className="sr-only">{ariaLabel}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="center">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="rotate-0 scale-125 transition-all dark:-rotate-90 dark:text-white" />
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="transition-all dark:rotate-0 scale-125 dark:text-white text-black" />
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <CogIcon className="transition-all scale-125 dark:text-white/70 text-black/70" />
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label={ariaLabel}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      <Sun
+        aria-hidden="true"
+        className={cn(
+          "absolute h-[1.2rem] w-[1.2rem] scale-125 transition-all duration-500 ease-in-out",
+          isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 opacity-100",
+        )}
+      />
+      <Moon
+        aria-hidden="true"
+        className={cn(
+          "absolute h-[1.2rem] w-[1.2rem] scale-125 transition-all duration-500 ease-in-out",
+          isDark ? "rotate-0 opacity-100" : "-rotate-90 scale-0 opacity-0",
+        )}
+      />
+      <span className="sr-only">{ariaLabel}</span>
+    </Button>
   );
 }
