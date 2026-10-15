@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FormSection } from "@/components/admin/FormSection";
+import { FormSection, PageHeader } from "@/components/admin/FormSection";
 import { ImageField } from "@/components/admin/ImageField";
 import { LocalizedField } from "@/components/admin/LocalizedField";
 import { MarkdownField } from "@/components/admin/MarkdownField";
@@ -76,10 +76,10 @@ function Editor() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">السيرة الذاتية</h1>
-      <p className="text-muted-foreground text-sm">
-        عنوان الصفحة والعنوان الفرعي ثابتان في ملفات الترجمة.
-      </p>
+      <PageHeader
+        title="السيرة الذاتية"
+        description="عنوان الصفحة والعنوان الفرعي ثابتان في ملفات الترجمة."
+      />
 
       <FormSection title="النصوص">
         <MarkdownField
@@ -93,6 +93,7 @@ function Editor() {
       <FormSection title="بطاقة التعريف">
         <ImageField
           label="الصورة"
+          aspect={5 / 4}
           value={form.card.image}
           onChange={(value) => setCard("image", value)}
         />
@@ -157,9 +158,10 @@ function Editor() {
       <FormSection title="الخط الزمني">
         <RepeatableList<TimelineItem>
           label="المحطات"
+          noun="محطة"
           items={form.timeline}
           onChange={(items) => set("timeline", items)}
-          createItem={() => ({ title: emptyLocalized(), date: "" })}
+          createItem={() => ({ title: emptyLocalized(), date: "", image: null })}
           itemLabel={(item, index) => item.title.ar || `محطة ${index + 1}`}
           renderItem={(item, update) => (
             <div className="space-y-4">
@@ -174,6 +176,14 @@ function Editor() {
                 value={item.date}
                 onChange={(date) => update({ ...item, date })}
               />
+              <ImageField
+                label="صورة الحدث (اختيارية)"
+                value={item.image ?? null}
+                onChange={(image) => update({ ...item, image })}
+              />
+              <p className="text-[13px] text-muted-foreground">
+                تظهر الصورة خلف الحدث في الخط الزمني بشفافية وأطراف متلاشية.
+              </p>
             </div>
           )}
         />

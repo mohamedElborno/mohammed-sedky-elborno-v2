@@ -24,9 +24,14 @@ export const NavbarMobile = ({
       <ul className="min-h-0 overflow-hidden px-3">
         {navbarData.map((item) => {
           const active =
-            item.link === "/" ? pathname === "/" : pathname.startsWith(item.link);
+            item.link === "/"
+              ? pathname === "/"
+              : pathname.startsWith(item.link);
           return (
-            <li key={item.link} className="border-t border-border/50 first:border-t-0">
+            <li
+              key={item.link}
+              className="border-t border-border/50 first:border-t-0"
+            >
               <Link
                 href={item.link}
                 tabIndex={boolean ? 0 : -1}
@@ -38,7 +43,9 @@ export const NavbarMobile = ({
                     : "text-foreground/45 hover:text-foreground/90",
                 )}
               >
-                {item.title}
+                <span className="relative isolate inline-block">
+                  {item.title}
+                </span>
               </Link>
             </li>
           );

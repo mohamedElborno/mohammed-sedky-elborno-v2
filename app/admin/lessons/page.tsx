@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Doc } from "@/convex/_generated/dataModel";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FormSection } from "@/components/admin/FormSection";
+import { FormSection, PageHeader } from "@/components/admin/FormSection";
 import { ImageField } from "@/components/admin/ImageField";
 import { LocalizedField } from "@/components/admin/LocalizedField";
 import { RepeatableList } from "@/components/admin/RepeatableList";
@@ -54,14 +54,15 @@ function Editor() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">المقاطع والدروس</h1>
-      <p className="text-muted-foreground text-sm">
-        عنوان الصفحة ووصفها ثابتان في ملفات الترجمة.
-      </p>
+      <PageHeader
+        title="المقاطع والدروس"
+        description="عنوان الصفحة ووصفها ثابتان في ملفات الترجمة."
+      />
 
       <FormSection title="القناة">
         <ImageField
           label="صورة القناة"
+          aspect={21 / 9}
           value={form.image}
           onChange={(value) => set("image", value)}
         />
@@ -77,6 +78,7 @@ function Editor() {
       <FormSection title="الدروس">
         <RepeatableList<LessonItem>
           label="قائمة الدروس"
+          noun="درس"
           items={form.lessons}
           onChange={(items) => set("lessons", items)}
           createItem={() => ({
@@ -90,6 +92,7 @@ function Editor() {
             <div className="space-y-4">
               <ImageField
                 label="الصورة"
+                aspect={16 / 9}
                 value={item.image}
                 onChange={(image) => update({ ...item, image })}
               />

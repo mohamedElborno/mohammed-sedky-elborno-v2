@@ -74,19 +74,28 @@
     "about": {
       "title": "Şeyh Hakkında",
       "description": "Şeyh Muhammed Sedki El-Borno (YIL-YIL), hayatını bilgi ve inanç hizmetine adamış tanınmış bir alim, yazar ve manevi rehberdi.",
-      "button": "Tam Biyografiyi Oku",
-      "quote": {
-        "text": "Şeyh'in bilgeliğini ve bakış açısını yansıtan dikkat çekici bir alıntı ekleyin.",
-        "author": "Şeyh Muhammed Sedki El-Borno",
-        "source": "[Alıntı Kaynağı]'ndan"
-      }
+      "button": "Tam Biyografiyi Oku"
     },
     "contribute": {
       "title": "Arşive Katkıda Bulunun",
       "description": "Şeyh Muhammed Sedki El-Borno ile ilgili materyalleri, çevirileri veya anıları paylaşarak bu koleksiyonu korumamıza ve genişletmemize yardımcı olun.",
       "button": "Bizimle İletişime Geçin",
       "emailSubject": "Soru",
-      "emailBody": "Esselâmu aleyküm ve rahmetullahi ve berekâtuh"
+      "emailBody": "Esselâmu aleyküm ve rahmetullahi ve berekâtuh",
+      "ways": {
+        "materials": {
+          "title": "Materyal ve fotoğraflar",
+          "text": "Arşivi zenginleştiren kitaplar, el yazmaları, kayıtlar ve nadir fotoğraflar."
+        },
+        "translations": {
+          "title": "Çeviriler",
+          "text": "Metinlerin daha fazla okura ulaşması için başka dillere çevrilmesi."
+        },
+        "memories": {
+          "title": "Anılar ve tanıklıklar",
+          "text": "Şeyhin öğrencileri ve sevenleriyle yaşadığı olaylar ve hatıralar."
+        }
+      }
     }
   },
 
@@ -98,12 +107,24 @@
     "title": "Şeyh Muhammed Sedki El-Borno'nun Biyografisi",
     "subtitle": "Şeyh, öğretmen ve fakih",
     "timeline": "Tarih Zamanı",
-    "portraitAlt": "Şeyh Muhammed Sedki El-Borno'nun fotoğrafı"
+    "portraitAlt": "Şeyh Muhammed Sedki El-Borno'nun fotoğrafı",
+    "facts": {
+      "lifespan": "Doğum ve vefat",
+      "birthPlace": "Doğum yeri",
+      "institution": "Başlıca eğitim kurumu",
+      "works": "Yayımlanmış eserleri"
+    }
   },
 
   "media": {
     "title": "Şeyh'in Videoları",
-    "description": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı"
+    "description": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı",
+    "visitChannel": "Kanalı ziyaret et",
+    "watch": "Videoyu izle",
+    "count": "{count} video",
+    "search": "Videolarda ara",
+    "noResults": "Aramanızla eşleşen video yok.",
+    "thumbAlt": "{title} videosunun küçük resmi"
   },
 
   "books": {
@@ -112,7 +133,10 @@
     "bookNotFoundPDF": "Kitabın PDF dosyası bulunamadı",
     "bookRead": "Kitabı Oku ve Yükle",
     "coverAlt": "{title} kitabının kapağı",
-    "downloadLabel": "{title} kitabını indir"
+    "downloadLabel": "{title} kitabını indir",
+    "search": "Kitaplarda ara",
+    "count": "{count} kitap",
+    "noResults": "Aramanızla eşleşen kitap yok."
   },
 
   "gallery": {

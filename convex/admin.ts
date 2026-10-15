@@ -3,6 +3,7 @@ import { mutation, query, type MutationCtx } from "./_generated/server";
 import type { Doc, Id } from "./_generated/dataModel";
 import { requireAdmin } from "./authz";
 import {
+  aboutBlock,
   bookFields,
   biographyFields,
   galleryFields,
@@ -25,9 +26,18 @@ async function deleteUnusedFiles(
   await Promise.all(removed.map((id) => ctx.storage.delete(id)));
 }
 
-const homePageImages = (doc: Doc<"homePage"> | { image: StorageId | null; worksCategory: { icon: StorageId | null }[] }) => [
+const homePageImages = (
+  doc:
+    | Doc<"homePage">
+    | {
+        image: StorageId | null;
+        worksCategory: { icon: StorageId | null }[];
+        about?: { image: StorageId | null };
+      },
+) => [
   doc.image,
   ...doc.worksCategory.map((item) => item.icon),
+  doc.about?.image,
 ];
 
 const lessonsPageImages = (
@@ -83,6 +93,26 @@ export const saveHomePage = mutation({
   },
 });
 
+/** Saves only the "about the Sheikh" block, leaving the rest of the home page alone. */
+export const saveAbout = mutation({
+  args: { about: aboutBlock },
+  handler: async (ctx, { about }) => {
+    await requireAdmin(ctx);
+    const existing = await ctx.db.query("homePage").first();
+    if (existing) {
+      await ctx.db.patch(existing._id, { about });
+      await deleteUnusedFiles(ctx, [existing.about?.image], [about.image]);
+      return existing._id;
+    }
+    return ctx.db.insert("homePage", {
+      video: "",
+      image: null,
+      worksCategory: [],
+      about,
+    });
+  },
+});
+
 export const getBiography = query({
   args: {},
   handler: async (ctx) => {
@@ -100,8 +130,8 @@ export const saveBiography = mutation({
       await ctx.db.patch(existing._id, data);
       await deleteUnusedFiles(
         ctx,
-        [existing.card.image],
-        [data.card.image],
+        [existing.card.image, ...existing.timeline.map((item) => item.image)],
+        [data.card.image, ...data.timeline.map((item) => item.image)],
       );
       return existing._id;
     }

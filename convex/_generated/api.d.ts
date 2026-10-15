@@ -11,6 +11,8 @@
 import type * as admin from "../admin.js";
 import type * as authz from "../authz.js";
 import type * as content from "../content.js";
+import type * as seed from "../seed.js";
+import type * as seedData_biography from "../seedData/biography.js";
 
 import type {
   ApiFromModules,
@@ -22,6 +24,8 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   authz: typeof authz;
   content: typeof content;
+  seed: typeof seed;
+  "seedData/biography": typeof seedData_biography;
 }>;
 
 /**

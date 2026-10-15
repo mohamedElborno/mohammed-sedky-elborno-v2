@@ -3,19 +3,29 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { WorkCategory } from "@/content/types";
 
 export function FeaturedWorks({ items }: { items: WorkCategory[] }) {
   const t = useTranslations("home");
+  const isRtl = useLocale() === "ar";
   const reduceMotion = useReducedMotion();
 
   if (items.length === 0) return null;
 
   return (
-    <section className="w-full border-t py-16 md:py-24">
-      <div className="container px-6 md:px-8">
+    <section className="relative w-full overflow-hidden py-16 md:py-24">
+      <Image
+        src="/olive2.svg"
+        alt=""
+        width={400}
+        height={400}
+        className={`pointer-events-none absolute top-20 z-0 h-auto opacity-10 md:opacity-20 dark:invert ${
+          isRtl ? "-right-4 scale-x-[-1]" : "-left-4"
+        }`}
+      />
+      <div className="relative z-10 container px-6 md:px-8">
         <div className="mb-10 max-w-2xl space-y-3 md:mb-14">
           <p className="text-sm font-medium text-muted-foreground">
             {t("featuredWorks.subtitle")}

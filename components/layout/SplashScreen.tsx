@@ -76,7 +76,7 @@ export function SplashScreen() {
           key="splash"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+          className="splash-failsafe fixed inset-0 z-[100] flex items-center justify-center bg-background"
         >
           <LogoLoader className="w-56 sm:w-72" onDone={onRevealed} />
         </motion.div>

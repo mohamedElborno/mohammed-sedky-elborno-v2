@@ -9,6 +9,9 @@ const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 const convexPattern = convexUrl ? new URL(convexUrl) : null;
 
 const nextConfig: NextConfig = {
+  // Lets a phone on the same network open the dev server by its local address;
+  // without this Next blocks the dev scripts and the page never starts.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.16.*.*"],
   images: {
     remotePatterns: [
       ...(convexPattern

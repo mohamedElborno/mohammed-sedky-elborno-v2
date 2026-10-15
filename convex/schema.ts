@@ -27,6 +27,8 @@ export const worksCategoryItem = v.object({
 export const timelineItem = v.object({
   title: localized,
   date: v.string(),
+  // Optional, so timelines saved before images existed stay valid.
+  image: v.optional(imageId),
 });
 
 export const lessonItem = v.object({
@@ -55,10 +57,25 @@ export const galleryFields = {
   photos: v.array(galleryPhoto),
 };
 
+/**
+ * The "about the Sheikh" block of the home page. It is optional so the
+ * existing home page document stays valid until it is saved with this block.
+ */
+export const aboutBlock = v.object({
+  image: imageId,
+  description: localized,
+  quote: v.object({
+    text: localized,
+    author: localized,
+    source: localized,
+  }),
+});
+
 export const homePageFields = {
   video: v.string(),
   image: imageId,
   worksCategory: v.array(worksCategoryItem),
+  about: v.optional(aboutBlock),
 };
 
 export const biographyFields = {

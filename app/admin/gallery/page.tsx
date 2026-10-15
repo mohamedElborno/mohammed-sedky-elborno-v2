@@ -3,17 +3,18 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useMutation, useQuery } from "convex/react";
-import { ArrowLeft, ArrowRight, ImagePlus, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crop, ImagePlus, Trash2 } from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FormSection } from "@/components/admin/FormSection";
+import { FormSection, PageHeader } from "@/components/admin/FormSection";
 import { LocalizedField } from "@/components/admin/LocalizedField";
 import { SaveBar } from "@/components/admin/SaveBar";
 import {
   stripSystemFields,
   useEditorForm,
 } from "@/components/admin/useEditorForm";
+import { useImageEditor } from "@/components/admin/useImageEditor";
 import { useSave } from "@/components/admin/useSave";
 import { Button } from "@/components/ui/button";
 import { emptyLocalized } from "@/content/localized";
@@ -44,6 +45,7 @@ function Editor() {
     doc === undefined ? undefined : (stripSystemFields(doc) as GalleryForm),
     makeDefault,
   );
+  const imageEditor = useImageEditor();
   const [selected, setSelected] = useState(0);
   const [progress, setProgress] = useState<{ done: number; total: number }>();
   const [uploadErrors, setUploadErrors] = useState<string[]>([]);
@@ -113,6 +115,19 @@ function Editor() {
     if (inputRef.current) inputRef.current.value = "";
   };
 
+  const editCurrent = async () => {
+    const url = current?.image ? urls?.[current.image] : null;
+    if (!current || !url) return;
+    try {
+      const id = await imageEditor.open({ source: url });
+      if (id) updateCurrent({ ...current, image: id });
+    } catch (caught) {
+      setUploadErrors([
+        caught instanceof Error ? caught.message : "تعذّر تعديل الصورة",
+      ]);
+    }
+  };
+
   const updateCurrent = (next: Photo) =>
     setPhotos(photos.map((photo, i) => (i === selected ? next : photo)));
 
@@ -135,11 +150,10 @@ function Editor() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">ألبوم الصور</h1>
-      <p className="text-muted-foreground text-sm">
-        تظهر الصور في الصفحة الرئيسية بنفس ترتيبها هنا. عنوان القسم ثابت في
-        ملفات الترجمة.
-      </p>
+      <PageHeader
+        title="ألبوم الصور"
+        description="تظهر الصور في الصفحة الرئيسية بنفس ترتيبها هنا. عنوان القسم ثابت في ملفات الترجمة."
+      />
 
       <FormSection
         title="الصور"
@@ -266,6 +280,16 @@ function Editor() {
                 </Button>
                 <Button
                   type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={!current.image || !urls?.[current.image]}
+                  onClick={() => void editCurrent()}
+                >
+                  <Crop className="size-4" />
+                  قص وتعديل
+                </Button>
+                <Button
+                  type="button"
                   variant="ghost"
                   size="sm"
                   className="text-destructive"
@@ -279,6 +303,8 @@ function Editor() {
           </div>
         </FormSection>
       )}
+
+      {imageEditor.dialog}
 
       <SaveBar
         state={state}

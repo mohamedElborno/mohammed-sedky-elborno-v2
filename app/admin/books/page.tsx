@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { Plus, Trash2 } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FormSection } from "@/components/admin/FormSection";
+import { FormSection, PageHeader } from "@/components/admin/FormSection";
 import { ImageField } from "@/components/admin/ImageField";
 import { LocalizedField } from "@/components/admin/LocalizedField";
 import { SaveBar } from "@/components/admin/SaveBar";
@@ -46,10 +46,17 @@ function Editor() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">الكتب</h1>
-        <Button onClick={() => setCreating(true)} disabled={creating}>
-          <Plus className="h-4 w-4" />
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <PageHeader
+          title="الكتب"
+          description="تظهر الكتب في صفحة الكتب بحسب رقم الترتيب. اضغط على أي كتاب لتعديله."
+        />
+        <Button
+          onClick={() => setCreating(true)}
+          disabled={creating}
+          className="h-11 rounded-xl px-5 font-semibold"
+        >
+          <Plus className="size-4" />
           كتاب جديد
         </Button>
       </div>
@@ -62,18 +69,18 @@ function Editor() {
       )}
 
       {books.length === 0 && !creating && (
-        <p className="text-muted-foreground rounded-md border border-dashed p-6 text-center">
+        <p className="rounded-xl border border-dashed border-input p-8 text-center text-muted-foreground">
           لا كتب بعد. اضغط &laquo;كتاب جديد&raquo; للبدء.
         </p>
       )}
 
       <div className="space-y-3">
         {books.map((book) => (
-          <div key={book._id} className="rounded-lg border">
+          <div key={book._id} className="overflow-hidden rounded-xl border bg-card shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 p-4">
               <div>
                 <p className="font-medium">{book.title.ar || book.slug}</p>
-                <p className="text-muted-foreground text-xs">
+                <p className="text-sm text-muted-foreground">
                   ترتيب {book.order} • {book.slug}
                 </p>
               </div>
@@ -89,7 +96,7 @@ function Editor() {
             </div>
 
             {editing === book._id && (
-              <div className="border-t p-4">
+              <div className="border-t bg-muted/30 p-4 md:p-5">
                 <ExistingBook book={book} onDone={() => setEditing(null)} />
               </div>
             )}
@@ -191,6 +198,7 @@ function BookFields({
     <div className="space-y-4">
       <ImageField
         label="غلاف الكتاب"
+        aspect={2 / 3}
         value={form.coverImage}
         onChange={(value) => set("coverImage", value)}
       />

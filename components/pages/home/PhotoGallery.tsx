@@ -101,7 +101,7 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
   const current = openIndex === null ? null : photos[openIndex];
 
   return (
-    <section className="w-full pb-16 md:pb-24">
+    <section className="section-alt w-full py-16 md:py-24">
       <div className="container px-6 md:px-8">
         <div className="mb-8 space-y-2 md:mb-12">
           <h2 className="text-3xl font-bold sm:text-4xl">{t("title")}</h2>

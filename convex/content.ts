@@ -42,6 +42,17 @@ export const getHomePage = query({
           workUrl: item.workUrl,
         })),
       ),
+      about: doc.about
+        ? {
+            image: await imageUrl(ctx, doc.about.image),
+            description: text(doc.about.description, locale),
+            quote: {
+              text: text(doc.about.quote.text, locale),
+              author: text(doc.about.quote.author, locale),
+              source: text(doc.about.quote.source, locale),
+            },
+          }
+        : null,
     };
   },
 });
@@ -78,10 +89,13 @@ export const getBiography = query({
         ),
         publishedWorks: publishedWorks.filter((work) => work !== null),
       },
-      timeline: doc.timeline.map((item) => ({
-        title: text(item.title, locale),
-        date: item.date,
-      })),
+      timeline: await Promise.all(
+        doc.timeline.map(async (item) => ({
+          title: text(item.title, locale),
+          date: item.date,
+          image: await imageUrl(ctx, item.image),
+        })),
+      ),
     };
   },
 });

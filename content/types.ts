@@ -30,6 +30,7 @@ export interface Card {
 export interface Timeline {
   title: string;
   date: string;
+  image?: string;
 }
 
 export interface Biography {
@@ -68,4 +69,10 @@ export interface LessonsPageType {
 export interface GalleryPhoto {
   image: string;
   caption: string;
+}
+
+export interface AboutBlock {
+  image: string;
+  description: string;
+  quote: { text: string; author: string; source: string };
 }

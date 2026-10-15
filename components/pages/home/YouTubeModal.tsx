@@ -5,6 +5,8 @@ import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { YouTubeThumb } from "@/components/YouTubeThumb";
+import { youtubeEmbedUrl } from "@/lib/youtube";
 
 interface YouTubeModalProps {
   videoUrl: string;
@@ -18,8 +20,6 @@ export default function YouTubeModal({
   const t = useTranslations("common.video");
   const [isOpen, setIsOpen] = useState(false);
 
-  const videoId =
-    new URL(videoUrl).searchParams.get("v") || videoUrl.split("/embed/")[1];
   return (
     <>
       <div
@@ -35,18 +35,27 @@ export default function YouTubeModal({
         tabIndex={0}
         aria-label={t("play")}
       >
-        <Image
-          width={1280}
-          height={720}
-          src={
-            thumbnailUrl ||
-            `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-          }
-          alt={t("thumbnailAlt")}
-          className="aspect-video w-full rounded-2xl object-cover"
-          sizes="(min-width: 1024px) 45vw, 100vw"
-          priority
-        />
+        {/* The uploaded thumbnail, or else the video's own one from YouTube. */}
+        <div className="relative aspect-video w-full rounded-2xl bg-muted">
+          {thumbnailUrl ? (
+            <Image
+              src={thumbnailUrl}
+              alt={t("thumbnailAlt")}
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="rounded-2xl object-cover"
+              priority
+            />
+          ) : (
+            <YouTubeThumb
+              url={videoUrl}
+              alt={t("thumbnailAlt")}
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="rounded-2xl object-cover"
+              priority
+            />
+          )}
+        </div>
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-2xl">
           <svg
             className="size-12 text-white/90 drop-shadow transition-transform duration-300 group-hover:scale-110"
@@ -77,7 +86,7 @@ export default function YouTubeModal({
               <X className="w-5 h-5" />
             </button>
             <iframe
-              src={videoUrl}
+              src={youtubeEmbedUrl(videoUrl)}
               title={t("title")}
               className="w-full h-full rounded-lg"
               frameBorder="0"

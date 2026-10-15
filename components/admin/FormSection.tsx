@@ -1,5 +1,24 @@
 import { ReactNode } from "react";
 
+export function PageHeader({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="space-y-1.5 pb-2">
+      <h1 className="text-2xl font-bold md:text-3xl">{title}</h1>
+      {description && (
+        <p className="max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function FormSection({
   title,
   description,
@@ -10,14 +29,16 @@ export function FormSection({
   children: ReactNode;
 }) {
   return (
-    <section className="space-y-4 rounded-lg border p-4 md:p-6">
-      <div>
-        <h2 className="text-lg font-semibold">{title}</h2>
+    <section className="overflow-hidden rounded-2xl border bg-card shadow-sm">
+      <header className="space-y-1 border-b bg-muted/50 px-5 py-4 md:px-6">
+        <h2 className="text-lg font-bold">{title}</h2>
         {description && (
-          <p className="text-muted-foreground text-sm">{description}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
         )}
-      </div>
-      <div className="space-y-4">{children}</div>
+      </header>
+      <div className="space-y-6 p-5 md:p-6">{children}</div>
     </section>
   );
 }

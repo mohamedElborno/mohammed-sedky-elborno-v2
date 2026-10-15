@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { Link as LocaleLink } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,10 +6,11 @@ import Image from "next/image";
 import YouTubeModal from "./YouTubeModal";
 import { PhotoGallery } from "./PhotoGallery";
 import { FeaturedWorks } from "./FeaturedWorks";
+import { AboutSection } from "./AboutSection";
+import { ContributeSection } from "./ContributeSection";
 import { useTranslations } from "next-intl";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { RichText } from "@/components/BlockStyle";
 
 export const HomePage = ({
   locale,
@@ -90,67 +90,8 @@ export const HomePage = ({
         </section>
         <PhotoGallery photos={photos} />
         <FeaturedWorks items={homePage?.worksCategory ?? []} />
-        <section className="w-full py-12 md:py-24 lg:py-32 dark:bg-muted/40 bg-muted/90">
-          <div className="container px-5 md:px-8">
-            <div className="grid gap-10 md:gap-16 lg:grid-cols-2">
-              <div className="space-y-4">
-                <h2 className={`text-3xl font-bold md:text-4xl/tight`}>
-                  {t("about.title")}
-                </h2>
-                <p className={`text-muted-foreground md:text-xl`}>
-                  {t("about.description")}
-                </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href={`/${locale}/biography`}>
-                    <Button variant="outline" className="cursor-pointer">
-                      {t("about.button")}
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <blockquote className={`text-xl italic border-s-4 ps-4 py-3`}>
-                  <RichText value={t("about.quote.text")} />
-                </blockquote>
-                <div className="flex items-center gap-4">
-                  <div>
-                    <div className={`font-semibold`}>
-                      {t("about.quote.author")}
-                    </div>
-                    <div className={`text-sm text-muted-foreground`}>
-                      {t("about.quote.source")}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-5 md:px-8">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className={`text-3xl font-bold sm:text-4xl md:text-5xl`}>
-                  {t("contribute.title")}
-                </h2>
-                <p
-                  className={`max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed`}
-                >
-                  {t("contribute.description")}
-                </p>
-              </div>
-              <div className="mx-auto w-full max-w-sm space-y-2">
-                <Link
-                  href={`mailto:elborno.family@gmail.com?subject=${encodeURIComponent(t("contribute.emailSubject"))}&body=${encodeURIComponent(t("contribute.emailBody"))}`}
-                >
-                  <Button className="w-full cursor-pointer">
-                    {t("contribute.button")}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        <AboutSection about={homePage?.about ?? null} />
+        <ContributeSection />
       </main>
     </div>
   );

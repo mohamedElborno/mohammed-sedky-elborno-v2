@@ -1,38 +1,52 @@
 import Markdown, { type Components } from "react-markdown";
 
+// How text written in the admin's visual editor is drawn on the site.
 export const markdownComponents: Components = {
-  h1: ({ children }) => <h1 className="text-4xl font-bold mb-4">{children}</h1>,
+  h1: ({ children }) => (
+    <h1 className="mt-12 mb-5 text-4xl font-bold leading-snug first:mt-0">
+      {children}
+    </h1>
+  ),
   h2: ({ children }) => (
-    <h2 className="text-3xl font-semibold mb-3">{children}</h2>
+    <h2 className="mt-12 mb-4 text-2xl font-bold leading-snug first:mt-0 md:text-3xl">
+      {children}
+    </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-2xl font-semibold mb-3">{children}</h3>
+    <h3 className="mt-8 mb-3 text-xl font-bold leading-snug first:mt-0 md:text-2xl">
+      {children}
+    </h3>
   ),
   p: ({ children }) => (
-    <p className="mb-4 text-xl lg:text-justify break-words leading-relaxed dark:text-gray-200 text-gray-950 max-w-[900px]">
+    <p className="mb-6 text-lg leading-[2] break-words text-foreground/90 md:text-xl md:leading-[2.05]">
       {children}
     </p>
   ),
+  strong: ({ children }) => (
+    <strong className="font-bold text-foreground">{children}</strong>
+  ),
   ul: ({ children }) => (
-    <ul className="list-disc text-lg leading-relaxed pl-6 max-w-[900px] dark:text-zinc-300 text-zinc-700">
+    <ul className="mb-6 list-disc space-y-2 ps-6 text-lg leading-[1.95] text-foreground/90 md:text-xl">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="list-decimal text-lg leading-relaxed pl-6 max-w-[900px]">
+    <ol className="mb-6 list-decimal space-y-2 ps-6 text-lg leading-[1.95] text-foreground/90 md:text-xl">
       {children}
     </ol>
   ),
-  li: ({ children }) => <li className="mb-2">{children}</li>,
+  li: ({ children }) => <li className="ps-1">{children}</li>,
   blockquote: ({ children }) => (
-    <blockquote className="border-s-4 ps-4 py-2 italic">{children}</blockquote>
+    <blockquote className="my-8 border-s-4 border-foreground/25 ps-5 text-muted-foreground italic [&>p]:mb-0">
+      {children}
+    </blockquote>
   ),
   a: ({ href, children }) => (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="underline hover:text-primary"
+      className="underline underline-offset-4 hover:text-primary"
     >
       {children}
     </a>

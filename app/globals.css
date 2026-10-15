@@ -162,3 +162,121 @@ ul:lang(ar) {
     corner-shape: squircle;
   }
 }
+
+/* Safety net for the splash screen: it is part of the server HTML, so if the
+   page's JavaScript never starts (a blocked script, a failed connection) it
+   would cover the site forever. After a few seconds it hides itself. */
+@keyframes splash-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.splash-failsafe {
+  animation: splash-failsafe 0.4s ease 5s forwards;
+}
+
+/* Admin panel: a light, high-contrast palette. Body text is near black, hints
+   and labels are dark grey (7:1 on white) and field borders are clearly
+   visible instead of the faint hairlines the public site uses. */
+.admin-ui {
+  color-scheme: light;
+  --background: #f4f4f5;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --muted: #ebebed;
+  --muted-foreground: #52525b;
+  --accent: #e4e4e7;
+  --accent-foreground: #18181b;
+  --border: #d4d4d8;
+  --input: #a1a1aa;
+  --ring: #3f3f46;
+}
+
+.admin-ui [data-slot="input"] {
+  height: 2.75rem;
+  background: #ffffff;
+  font-size: 0.95rem;
+}
+
+.admin-ui textarea {
+  background: #ffffff;
+}
+
+/* Alternating section backgrounds on the home page: every second section
+   sits on a surface a step darker than the page, in both themes. */
+.section-alt {
+  background-color: #ededed;
+}
+
+.dark .section-alt {
+  background-color: color-mix(in oklab, var(--muted) 28%, var(--background));
+}
+
+/* Visual text editor used in the admin panel. It is styled to look like the
+   text on the public site, so what is typed is what visitors see. */
+.rich-editor .ProseMirror {
+  min-height: 18rem;
+  padding: 1.1rem 1.25rem;
+  outline: none;
+  font-size: 1.05rem;
+  line-height: 1.95;
+}
+
+.rich-editor .ProseMirror > * + * {
+  margin-top: 0.9em;
+}
+
+.rich-editor .ProseMirror h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.rich-editor .ProseMirror h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.rich-editor .ProseMirror ul {
+  list-style: disc;
+  padding-inline-start: 1.6rem;
+}
+
+.rich-editor .ProseMirror ol {
+  list-style: decimal;
+  padding-inline-start: 1.6rem;
+}
+
+.rich-editor .ProseMirror li > p {
+  margin: 0;
+}
+
+.rich-editor .ProseMirror blockquote {
+  border-inline-start: 4px solid var(--input);
+  padding-inline-start: 1rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.rich-editor .ProseMirror a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rich-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: inline-start;
+  height: 0;
+  color: var(--muted-foreground);
+  pointer-events: none;
+}

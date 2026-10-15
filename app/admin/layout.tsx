@@ -18,7 +18,7 @@ export default function AdminLayout({
 
   return (
     <html lang="ar" dir="rtl" className={thmanyah.variable} suppressHydrationWarning>
-      <body>
+      <body className="admin-ui">
         {clerkConfigured ? (
           <ClerkProvider
             signInUrl="/admin/sign-in"

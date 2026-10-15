@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { Input } from "@/components/ui/input";
 
 type Props = {
@@ -19,17 +20,21 @@ export function TextField({
   placeholder,
   hint,
 }: Props) {
+  const id = useId();
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">{label}</label>
+      <label htmlFor={id} className="block text-sm font-semibold">
+        {label}
+      </label>
       <Input
+        id={id}
         type={type}
         dir={type === "text" ? undefined : "ltr"}
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
       />
-      {hint && <p className="text-muted-foreground text-xs">{hint}</p>}
+      {hint && <p className="text-[13px] text-muted-foreground">{hint}</p>}
     </div>
   );
 }

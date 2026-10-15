@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Doc } from "@/convex/_generated/dataModel";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FormSection } from "@/components/admin/FormSection";
+import { FormSection, PageHeader } from "@/components/admin/FormSection";
 import { ImageField } from "@/components/admin/ImageField";
 import { LocalizedField } from "@/components/admin/LocalizedField";
 import { RepeatableList } from "@/components/admin/RepeatableList";
@@ -17,7 +17,8 @@ import {
 import { useSave } from "@/components/admin/useSave";
 import { emptyLocalized } from "@/content/localized";
 
-type HomePageForm = Omit<Doc<"homePage">, "_id" | "_creationTime">;
+// The "about the Sheikh" block has its own page, so it is not part of this form.
+type HomePageForm = Omit<Doc<"homePage">, "_id" | "_creationTime" | "about">;
 type WorksCategoryItem = HomePageForm["worksCategory"][number];
 
 const makeDefault = (): HomePageForm => ({
@@ -39,24 +40,32 @@ function Editor() {
   const save = useMutation(api.admin.saveHomePage);
   const { state, error, run } = useSave();
   const [form, setForm] = useEditorForm<HomePageForm>(
-    doc === undefined ? undefined : (stripSystemFields(doc) as HomePageForm),
+    doc === undefined
+      ? undefined
+      : ({ ...makeDefault(), ...stripSystemFields(doc) } as HomePageForm),
     makeDefault,
   );
 
   if (!form) {
-    return <p className="text-muted-foreground py-20 text-center">تحميل...</p>;
+    return <p className="py-20 text-center text-muted-foreground">تحميل...</p>;
   }
 
   const set = <K extends keyof HomePageForm>(key: K, value: HomePageForm[K]) =>
     setForm({ ...form, [key]: value });
 
+  // `about` is edited elsewhere, and is left untouched when it is not sent.
+  const payload: HomePageForm = {
+    video: form.video,
+    image: form.image,
+    worksCategory: form.worksCategory,
+  };
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">الصفحة الرئيسية</h1>
-      <p className="text-muted-foreground text-sm">
-        العناوين والأوصاف ونصوص الأزرار ثابتة في ملفات الترجمة، وهنا يُحرَّر
-        المحتوى المتغيّر فقط.
-      </p>
+      <PageHeader
+        title="الصفحة الرئيسية"
+        description="الفيديو المميّز وبطاقات الأعمال. أما اقتباس الشيخ ونبذته فمن صفحة «عن الشيخ والاقتباس»."
+      />
 
       <FormSection title="الفيديو المميّز">
         <TextField
@@ -65,18 +74,23 @@ function Editor() {
           value={form.video}
           onChange={(value) => set("video", value)}
           placeholder="https://www.youtube.com/watch?v=..."
-          hint="اتركه فارغاً لإخفاء الفيديو من الصفحة"
+          hint="اتركه فارغاً لإخفاء الفيديو من الصفحة."
         />
         <ImageField
           label="صورة مصغّرة للفيديو"
+          aspect={16 / 9}
           value={form.image}
           onChange={(value) => set("image", value)}
         />
       </FormSection>
 
-      <FormSection title="بطاقات الأعمال">
+      <FormSection
+        title="بطاقات الأعمال"
+        description="الصفوف التي تظهر تحت عنوان «تصفح الأعمال». كل صف يُفتح بالنقر عليه لتعديله."
+      >
         <RepeatableList<WorksCategoryItem>
           label="البطاقات"
+          noun="بطاقة"
           items={form.worksCategory}
           onChange={(items) => set("worksCategory", items)}
           createItem={() => ({
@@ -85,11 +99,12 @@ function Editor() {
             description: emptyLocalized(),
             workUrl: "",
           })}
-          itemLabel={(item, index) => item.title.ar || `بطاقة ${index + 1}`}
+          itemLabel={(item) => item.title.ar}
           renderItem={(item, update) => (
-            <div className="space-y-4">
+            <>
               <ImageField
                 label="الأيقونة"
+                aspect={1}
                 value={item.icon}
                 onChange={(icon) => update({ ...item, icon })}
               />
@@ -112,7 +127,7 @@ function Editor() {
                 placeholder="books"
                 hint="يُضاف بعد اللغة، مثال: books يعني /ar/books"
               />
-            </div>
+            </>
           )}
         />
       </FormSection>
@@ -120,7 +135,7 @@ function Editor() {
       <SaveBar
         state={state}
         error={error}
-        onSave={() => run(() => save(form))}
+        onSave={() => run(() => save(payload))}
       />
     </div>
   );

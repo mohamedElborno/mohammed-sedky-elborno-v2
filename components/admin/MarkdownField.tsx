@@ -1,199 +1,280 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Markdown } from "tiptap-markdown";
 import {
   Bold,
-  Eye,
   Heading2,
+  Heading3,
   Italic,
   Link2,
   List,
   ListOrdered,
-  Pencil,
   Quote,
+  Redo2,
+  Undo2,
+  Unlink,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LOCALE_LABELS, type Localized } from "@/content/localized";
-import { RichText } from "@/components/BlockStyle";
 
 type Props = {
   label: string;
   value: Localized;
   onChange: (value: Localized) => void;
+  /** Kept for compatibility; the editor grows with its text. */
   rows?: number;
 };
 
-const TOOLS = [
-  { id: "bold", icon: Bold, title: "عريض" },
-  { id: "italic", icon: Italic, title: "مائل" },
-  { id: "heading", icon: Heading2, title: "عنوان" },
-  { id: "list", icon: List, title: "قائمة" },
-  { id: "ordered", icon: ListOrdered, title: "قائمة مرقّمة" },
-  { id: "quote", icon: Quote, title: "اقتباس" },
-  { id: "link", icon: Link2, title: "رابط" },
-] as const;
+type MarkdownStorage = { markdown: { getMarkdown: () => string } };
 
-type ToolId = (typeof TOOLS)[number]["id"];
-
-export function MarkdownField({ label, value, onChange, rows = 10 }: Props) {
+// A visual editor: text is typed and formatted directly (bold, headings,
+// lists, links) and is stored as Markdown, which is what the site renders.
+export function MarkdownField({ label, value, onChange }: Props) {
   const [active, setActive] = useState<keyof Localized>("ar");
-  const [showPreview, setShowPreview] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const valueRef = useRef(value);
+  const onChangeRef = useRef(onChange);
+  const activeRef = useRef(active);
 
-  const text = value[active];
+  useEffect(() => {
+    valueRef.current = value;
+    onChangeRef.current = onChange;
+    activeRef.current = active;
+  });
 
-  const commit = (next: string, start: number, end: number) => {
-    onChange({ ...value, [active]: next });
-    // The value is controlled by the parent, so the caret is restored after the
-    // re-render instead of right away.
-    requestAnimationFrame(() => {
-      const node = textareaRef.current;
-      if (!node) return;
-      node.focus();
-      node.setSelectionRange(start, end);
-    });
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions: [
+      StarterKit.configure({
+        heading: { levels: [2, 3] },
+        link: { openOnClick: false, autolink: true },
+      }),
+      Markdown.configure({
+        html: false,
+        bulletListMarker: "-",
+        tightLists: true,
+        linkify: false,
+        breaks: false,
+        transformPastedText: true,
+      }),
+    ],
+    content: value[active],
+    editorProps: {
+      attributes: { "aria-label": label },
+    },
+    onUpdate: ({ editor: current }) => {
+      const markdown = (
+        current.storage as unknown as MarkdownStorage
+      ).markdown.getMarkdown();
+      onChangeRef.current({
+        ...valueRef.current,
+        [activeRef.current]: markdown,
+      });
+    },
+  });
+
+  const state = useEditorState({
+    editor,
+    selector: ({ editor: current }) => ({
+      bold: current?.isActive("bold") ?? false,
+      italic: current?.isActive("italic") ?? false,
+      h2: current?.isActive("heading", { level: 2 }) ?? false,
+      h3: current?.isActive("heading", { level: 3 }) ?? false,
+      bullet: current?.isActive("bulletList") ?? false,
+      ordered: current?.isActive("orderedList") ?? false,
+      quote: current?.isActive("blockquote") ?? false,
+      link: current?.isActive("link") ?? false,
+      canUndo: current?.can().undo() ?? false,
+      canRedo: current?.can().redo() ?? false,
+    }),
+  });
+
+  // Switching language swaps the text shown, without counting as an edit.
+  const switchLanguage = (next: keyof Localized) => {
+    setActive(next);
+    editor?.commands.setContent(valueRef.current[next], { emitUpdate: false });
+    editor?.commands.focus("end");
   };
 
-  const wrap = (marker: string, placeholder: string) => {
-    const node = textareaRef.current;
-    if (!node) return;
-    const { selectionStart: start, selectionEnd: end } = node;
-    const selected = text.slice(start, end) || placeholder;
-    const next =
-      text.slice(0, start) + marker + selected + marker + text.slice(end);
-    commit(next, start + marker.length, start + marker.length + selected.length);
-  };
-
-  const prefixLines = (prefix: string, ordered = false) => {
-    const node = textareaRef.current;
-    if (!node) return;
-    const { selectionStart: start, selectionEnd: end } = node;
-    const lineStart = text.lastIndexOf("\n", start - 1) + 1;
-    const lineBreak = text.indexOf("\n", end);
-    const lineEnd = lineBreak === -1 ? text.length : lineBreak;
-    const block = text.slice(lineStart, lineEnd);
-    const prefixed = block
-      .split("\n")
-      .map((line, index) => {
-        const mark = ordered ? `${index + 1}. ` : prefix;
-        return line.startsWith(mark) ? line : mark + line;
-      })
-      .join("\n");
-    const next = text.slice(0, lineStart) + prefixed + text.slice(lineEnd);
-    commit(next, lineStart, lineStart + prefixed.length);
-  };
-
-  const insertLink = () => {
-    const node = textareaRef.current;
-    if (!node) return;
-    const { selectionStart: start, selectionEnd: end } = node;
-    const selected = text.slice(start, end) || "نص الرابط";
-    const snippet = `[${selected}](https://)`;
-    const next = text.slice(0, start) + snippet + text.slice(end);
-    // Leave the caret at the end of the url so it can be typed right away.
-    const caret = start + snippet.length - 1;
-    commit(next, caret, caret);
-  };
-
-  const runTool = (id: ToolId) => {
-    switch (id) {
-      case "bold":
-        return wrap("**", "نص عريض");
-      case "italic":
-        return wrap("*", "نص مائل");
-      case "heading":
-        return prefixLines("## ");
-      case "list":
-        return prefixLines("- ");
-      case "ordered":
-        return prefixLines("1. ", true);
-      case "quote":
-        return prefixLines("> ");
-      case "link":
-        return insertLink();
+  const toggleLink = () => {
+    if (!editor) return;
+    if (state?.link) {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
     }
+    const url = window.prompt("أدخل الرابط (https://...)");
+    if (!url) return;
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url.trim() })
+      .run();
   };
+
+  const tools: {
+    id: string;
+    title: string;
+    icon: LucideIcon;
+    active: boolean;
+    disabled?: boolean;
+    run: () => void;
+  }[] = editor
+    ? [
+        {
+          id: "h2",
+          title: "عنوان كبير",
+          icon: Heading2,
+          active: state?.h2 ?? false,
+          run: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+        },
+        {
+          id: "h3",
+          title: "عنوان فرعي",
+          icon: Heading3,
+          active: state?.h3 ?? false,
+          run: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+        },
+        {
+          id: "bold",
+          title: "عريض",
+          icon: Bold,
+          active: state?.bold ?? false,
+          run: () => editor.chain().focus().toggleBold().run(),
+        },
+        {
+          id: "italic",
+          title: "مائل",
+          icon: Italic,
+          active: state?.italic ?? false,
+          run: () => editor.chain().focus().toggleItalic().run(),
+        },
+        {
+          id: "bullet",
+          title: "قائمة نقطية",
+          icon: List,
+          active: state?.bullet ?? false,
+          run: () => editor.chain().focus().toggleBulletList().run(),
+        },
+        {
+          id: "ordered",
+          title: "قائمة مرقّمة",
+          icon: ListOrdered,
+          active: state?.ordered ?? false,
+          run: () => editor.chain().focus().toggleOrderedList().run(),
+        },
+        {
+          id: "quote",
+          title: "اقتباس",
+          icon: Quote,
+          active: state?.quote ?? false,
+          run: () => editor.chain().focus().toggleBlockquote().run(),
+        },
+        {
+          id: "link",
+          title: state?.link ? "إزالة الرابط" : "إضافة رابط",
+          icon: state?.link ? Unlink : Link2,
+          active: state?.link ?? false,
+          run: toggleLink,
+        },
+        {
+          id: "undo",
+          title: "تراجع",
+          icon: Undo2,
+          active: false,
+          disabled: !state?.canUndo,
+          run: () => editor.chain().focus().undo().run(),
+        },
+        {
+          id: "redo",
+          title: "إعادة",
+          icon: Redo2,
+          active: false,
+          disabled: !state?.canRedo,
+          run: () => editor.chain().focus().redo().run(),
+        },
+      ]
+    : [];
 
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <label className="text-sm font-medium">{label}</label>
-        <div className="flex items-center gap-1 rounded-md border p-0.5">
-          {LOCALE_LABELS.map((locale) => (
-            <button
-              key={locale.id}
-              type="button"
-              onClick={() => setActive(locale.id)}
-              className={cn(
-                "rounded px-2 py-0.5 text-xs transition-colors",
-                active === locale.id
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent",
+        <span className="text-sm font-semibold">{label}</span>
+        <div
+          role="tablist"
+          aria-label={label}
+          className="flex items-center gap-0.5 rounded-lg bg-muted p-1"
+        >
+          {LOCALE_LABELS.map((locale) => {
+            const filled = Boolean(value[locale.id]);
+            return (
+              <button
+                key={locale.id}
+                type="button"
+                role="tab"
+                aria-selected={active === locale.id}
+                onClick={() => switchLanguage(locale.id)}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition-colors",
+                  active === locale.id
+                    ? "bg-card text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {locale.label}
+                <span
+                  aria-label={filled ? "مكتوب" : "فارغ"}
+                  className={cn(
+                    "size-1.5 rounded-full",
+                    filled ? "bg-emerald-600" : "bg-amber-500",
+                  )}
+                />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-xl border border-input bg-white shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/30">
+        <div className="sticky top-0 z-10 flex flex-wrap items-center gap-0.5 border-b bg-muted/60 p-1.5">
+          {tools.map((tool, index) => (
+            <span key={tool.id} className="contents">
+              {(index === 2 || index === 4 || index === 8) && (
+                <span className="mx-1 h-5 w-px bg-border" aria-hidden="true" />
               )}
-            >
-              {locale.label}
-            </button>
+              <button
+                type="button"
+                title={tool.title}
+                aria-label={tool.title}
+                aria-pressed={tool.active}
+                disabled={tool.disabled}
+                // Keep the text selection while a tool is used.
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={tool.run}
+                className={cn(
+                  "rounded-lg p-2 transition-colors disabled:opacity-35",
+                  tool.active
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground/80 hover:bg-accent",
+                )}
+              >
+                <tool.icon className="size-[18px]" />
+              </button>
+            </span>
           ))}
         </div>
-      </div>
 
-      <div className="flex flex-wrap items-center gap-1 rounded-md border p-1">
-        {TOOLS.map((tool) => (
-          <button
-            key={tool.id}
-            type="button"
-            title={tool.title}
-            aria-label={tool.title}
-            disabled={showPreview}
-            onClick={() => runTool(tool.id)}
-            className="hover:bg-accent text-muted-foreground hover:text-foreground rounded p-1.5 transition-colors disabled:opacity-40"
-          >
-            <tool.icon className="h-4 w-4" />
-          </button>
-        ))}
-
-        <button
-          type="button"
-          onClick={() => setShowPreview((previous) => !previous)}
-          className="hover:bg-accent ms-auto flex items-center gap-1.5 rounded px-2 py-1 text-xs transition-colors"
-        >
-          {showPreview ? (
-            <>
-              <Pencil className="h-3.5 w-3.5" />
-              تحرير
-            </>
-          ) : (
-            <>
-              <Eye className="h-3.5 w-3.5" />
-              معاينة
-            </>
-          )}
-        </button>
-      </div>
-
-      {showPreview ? (
-        <div
-          dir={active === "ar" ? "rtl" : "ltr"}
-          className="min-h-40 rounded-md border p-4"
-        >
-          <RichText value={text} />
+        <div className="rich-editor" dir={active === "ar" ? "rtl" : "ltr"}>
+          <EditorContent editor={editor} />
         </div>
-      ) : (
-        <textarea
-          ref={textareaRef}
-          dir={active === "ar" ? "rtl" : "ltr"}
-          rows={rows}
-          value={text}
-          onChange={(event) =>
-            onChange({ ...value, [active]: event.target.value })
-          }
-          className="border-input dark:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 w-full rounded-md border bg-transparent px-3 py-2 font-mono text-sm shadow-xs outline-none focus-visible:ring-[3px]"
-        />
-      )}
+      </div>
 
-      <p className="text-muted-foreground text-xs">
-        النص يُحفظ بصيغة Markdown ويظهر منسّقاً على الموقع. اضغط معاينة لرؤية
-        الشكل النهائي.
+      <p className="text-[13px] text-muted-foreground">
+        اكتب النص مباشرة وحدّد ما تريد تنسيقه ثم اختر الأداة من الشريط. يظهر
+        النص في الموقع بهذا الشكل نفسه.
       </p>
     </div>
   );
