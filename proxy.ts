@@ -28,5 +28,10 @@ export default clerkConfigured
       isAdminRoute(request) ? NextResponse.next() : intlMiddleware(request);
 
 export const config = {
-  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
+  matcher: [
+    "/((?!api|_next|_vercel|.*\\..*).*)",
+    // Clerk proxies its Frontend API through this path on *.vercel.app. The
+    // script URLs contain dots, so the pattern above would skip them (404).
+    "/__clerk/(.*)",
+  ],
 };
