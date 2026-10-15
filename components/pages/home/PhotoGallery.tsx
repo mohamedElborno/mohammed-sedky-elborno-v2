@@ -19,6 +19,9 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
   const trackRef = useRef<HTMLUListElement>(null);
   const drag = useRef({ active: false, moved: false, startX: 0, startScroll: 0 });
   const [edges, setEdges] = useState({ start: true, end: true });
+  // Size and position of the scroll indicator, as fractions of its rail.
+  const [bar, setBar] = useState({ size: 1, offset: 0 });
+  const touchStartX = useRef<number | null>(null);
 
   // scrollLeft is 0 at the reading start in both directions (negative in RTL),
   // so the absolute value works for either.
@@ -30,6 +33,9 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
       start: offset <= 1,
       end: offset + track.clientWidth >= track.scrollWidth - 1,
     });
+    const size = Math.min(1, track.clientWidth / track.scrollWidth);
+    const travel = track.scrollWidth - track.clientWidth;
+    setBar({ size, offset: travel > 0 ? (offset / travel) * (1 - size) : 0 });
   }, []);
 
   useEffect(() => {
@@ -121,7 +127,7 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
             {photos.map((photo, index) => (
               <li
                 key={`${photo.image}-${index}`}
-                className="w-64 shrink-0 sm:w-72 lg:w-80"
+                className="w-60 shrink-0 sm:w-64 lg:w-72"
               >
                 <button
                   type="button"
@@ -134,17 +140,22 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
                     setOpenIndex(index);
                   }}
                   aria-label={t("open", { index: index + 1 })}
-                  className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl bg-muted"
+                  className="group relative block aspect-[4/5] w-full overflow-hidden rounded-3xl bg-muted"
                 >
                   <Image
                     src={photo.image}
                     alt={photo.caption}
                     width={800}
                     height={600}
-                    sizes="(min-width: 1024px) 20rem, 18rem"
+                    sizes="(min-width: 1024px) 18rem, 16rem"
                     draggable={false}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="size-full object-cover"
                   />
+                  {photo.caption && (
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-4 pb-4 pt-12 text-start text-sm font-medium leading-snug text-white">
+                      <span className="line-clamp-2">{photo.caption}</span>
+                    </span>
+                  )}
                 </button>
               </li>
             ))}
@@ -152,6 +163,12 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
 
           {!(edges.start && edges.end) && (
             <>
+              <div className="pointer-events-none mt-5 h-1 rounded-full bg-foreground/10" aria-hidden="true">
+                <div
+                  className="relative h-full rounded-full bg-foreground/40 transition-[inset-inline-start] duration-150"
+                  style={{ width: `${bar.size * 100}%`, insetInlineStart: `${bar.offset * 100}%` }}
+                />
+              </div>
               <RowArrow
                 label={t("previous")}
                 hidden={edges.start}
@@ -183,7 +200,20 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
           dir={rtl ? "rtl" : "ltr"}
           className="fixed inset-0 flex items-center justify-center p-4"
         >
-          <Dialog.Panel className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center gap-4">
+          <Dialog.Panel
+            onTouchStart={(event) => {
+              touchStartX.current = event.touches[0].clientX;
+            }}
+            onTouchEnd={(event) => {
+              const start = touchStartX.current;
+              touchStartX.current = null;
+              if (start === null) return;
+              const delta = event.changedTouches[0].clientX - start;
+              if (Math.abs(delta) < 50) return;
+              // Swiping toward the page start moves forward.
+              step((delta < 0) !== rtl ? 1 : -1);
+            }}
+            className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center gap-4">
             {current && (
               <>
                 <div className="relative flex min-h-48 min-w-48 items-center justify-center">

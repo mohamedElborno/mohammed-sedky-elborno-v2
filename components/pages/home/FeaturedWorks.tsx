@@ -15,7 +15,7 @@ export function FeaturedWorks({ items }: { items: WorkCategory[] }) {
   if (items.length === 0) return null;
 
   return (
-    <section className="relative w-full overflow-hidden py-16 md:py-24">
+    <section className="section-alt relative w-full overflow-hidden py-16 md:py-24">
       <OliveBranch
         branch={6}
         className="start-0 top-16 w-[300px] opacity-15 md:w-[520px] md:opacity-25 rtl:-scale-x-100"

@@ -31,7 +31,7 @@ export function AboutSection({ about }: { about: AboutBlock | null }) {
   });
 
   return (
-    <section className="section-alt relative w-full overflow-x-clip py-16 md:py-24 lg:py-32">
+    <section className="relative w-full overflow-x-clip py-16 md:py-24 lg:py-32">
       <OliveBranch
         branch={1}
         className="end-0 bottom-0 hidden w-[420px] opacity-15 md:block lg:w-[520px] rtl:-scale-x-100"

@@ -79,9 +79,9 @@ export const HomePage = ({
 
           </div>
         </section>
-        <PhotoGallery photos={photos} />
         <FeaturedWorks items={homePage?.worksCategory ?? []} />
         <AboutSection about={homePage?.about ?? null} />
+        <PhotoGallery photos={photos} />
         <ContributeSection />
       </main>
     </div>
