@@ -59,6 +59,7 @@ export default function LanguageChanger() {
         <Button
           variant="ghost"
           size="icon"
+          className="transition-colors hover:bg-foreground/10 dark:hover:bg-foreground/10"
           aria-label={t("changeLanguage")}
         >
           <Languages className="scale-125" />

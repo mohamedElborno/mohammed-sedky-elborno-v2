@@ -5,7 +5,7 @@ import { ThemeProvider } from "../providers/theme-provider";
 import Footer from "./footer/Footer";
 import Navbar from "./navbar/Navbar";
 import { ScrollToTop } from "./scroll-to-top";
-import LoadingIndicator from "./Loading";
+import { SplashScreen } from "./SplashScreen";
 
 if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
   throw new Error("NEXT_PUBLIC_CONVEX_URL مفقود من ملف البيئة");
@@ -23,21 +23,23 @@ export default function LayoutClient({
   const isRtl = locale === "ar";
 
   return (
+    <>
+      <SplashScreen />
     <div
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
     >
-      <div className="mt-20 min-h-screen">
+      <div className="mt-20 flex min-h-[calc(100svh-5rem)] flex-col">
         <ConvexProvider client={convex}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Navbar />
             {children}
             <Footer />
-            <LoadingIndicator />
           </ThemeProvider>
         </ConvexProvider>
         <ScrollToTop isRtl={isRtl} />
       </div>
     </div>
+    </>
   );
 }

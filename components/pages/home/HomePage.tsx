@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import YouTubeModal from "./YouTubeModal";
 import { PhotoGallery } from "./PhotoGallery";
+import { FeaturedWorks } from "./FeaturedWorks";
 import { useTranslations } from "next-intl";
 import { Preloaded, usePreloadedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { WorkCategory } from "@/content/types";
 import { RichText } from "@/components/BlockStyle";
 
 export const HomePage = ({
@@ -89,69 +89,7 @@ export const HomePage = ({
           </div>
         </section>
         <PhotoGallery photos={photos} />
-        <section className="w-full py-12 md:py-24 dark:bg-muted/30 bg-muted/60 relative">
-          <Image
-            src="/olive2.svg"
-            alt=""
-            width={400}
-            height={400}
-            className={`h-auto overflow-hidden dark:invert z-0 absolute opacity-10 md:opacity-20 top-20  ${
-              isRtl ? "-right-4 scale-x-[-1]" : "-left-4 scale-x-[1]"
-            }`}
-          />
-          <div className="container space-y-12 px-4 md:px-8">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div
-                className={`inline-block rounded-lg bg-muted px-3 py-1 lg:px-4 lg:py-2 text-lg lg:text-xl`}
-              >
-                {t("featuredWorks.subtitle")}
-              </div>
-              <h2 className={`text-3xl my-8 font-bold mx-auto sm:text-5xl`}>
-                {t("featuredWorks.title")}
-              </h2>
-              <p
-                className={`max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed`}
-              >
-                {t("featuredWorks.description")}
-              </p>
-            </div>
-            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl px-2 md:px-8 sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
-              {homePage?.worksCategory?.map(
-                (item: WorkCategory, index: number) => (
-                  <div className="grid gap-1 h-full" key={index}>
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                      <Image
-                        src={item?.icon || "/logo.svg"}
-                        width={100}
-                        height={100}
-                        alt=""
-                        className="h-8 w-8 object-cover dark:invert"
-                      />
-                    </div>
-                    <h3 className={`text-xl font-bold px-2 mt-2`}>
-                      {item?.title}
-                    </h3>
-                    <p className={`text-lg text-muted-foreground px-2`}>
-                      {item?.description}
-                    </p>
-                    <Link
-                      href={`/${locale}/${item?.workUrl}`}
-                      className="mt-2 w-fit"
-                    >
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="cursor-pointer"
-                      >
-                        {t("categories.viewCollection")}
-                      </Button>
-                    </Link>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </section>
+        <FeaturedWorks items={homePage?.worksCategory ?? []} />
         <section className="w-full py-12 md:py-24 lg:py-32 dark:bg-muted/40 bg-muted/90">
           <div className="container px-5 md:px-8">
             <div className="grid gap-10 md:gap-16 lg:grid-cols-2">

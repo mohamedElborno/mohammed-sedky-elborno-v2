@@ -32,9 +32,9 @@ export const NavbarMobile = ({
                 tabIndex={boolean ? 0 : -1}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "block px-3 py-3.5 text-xl font-semibold transition-[color,text-shadow] duration-300",
+                  "block px-3 py-3.5 text-xl font-semibold transition-colors duration-300",
                   active
-                    ? "text-foreground [text-shadow:0_0_14px_color-mix(in_oklab,var(--foreground)_40%,transparent)]"
+                    ? "text-foreground"
                     : "text-foreground/45 hover:text-foreground/90",
                 )}
               >

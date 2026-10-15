@@ -52,13 +52,12 @@ export const NavbarDesktop = ({
                   href={item.link}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "px-4 py-1.5 text-sm font-medium transition-[color,text-shadow] duration-300",
+                    "px-4 py-1.5 text-sm font-medium transition-colors duration-300",
                     active
-                      ? "text-foreground [text-shadow:0_0_14px_color-mix(in_oklab,var(--foreground)_40%,transparent)]"
+                      ? "text-foreground"
                       : "text-foreground/50 hover:text-foreground/90",
                   )}
                 >
-
                   {item.title}
                 </Link>
               </li>

@@ -43,7 +43,8 @@
       "thumbnailAlt": "Video thumbnail",
       "title": "The Sheikh's YouTube video",
       "close": "Close video"
-    }
+    },
+    "loading": "Loading"
   },
 
   "navigation": {

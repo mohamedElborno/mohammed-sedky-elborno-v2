@@ -7,11 +7,14 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { GalleryPhoto } from "@/content/types";
 import { cn } from "@/lib/utils";
+import { LogoLoader } from "@/components/LogoLoader";
 
 export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
   const t = useTranslations("gallery");
   const rtl = useLocale() === "ar";
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // The photo that has finished loading; the loader shows until it matches.
+  const [readyIndex, setReadyIndex] = useState<number | null>(null);
   const total = photos.length;
   const trackRef = useRef<HTMLUListElement>(null);
   const drag = useRef({ active: false, moved: false, startX: 0, startScroll: 0 });
@@ -183,15 +186,25 @@ export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
           <Dialog.Panel className="relative flex h-full w-full max-w-6xl flex-col items-center justify-center gap-4">
             {current && (
               <>
-                <Image
-                  src={current.image}
-                  alt={current.caption}
-                  width={1600}
-                  height={1200}
-                  sizes="100vw"
-                  className="max-h-[75vh] w-auto max-w-full rounded-3xl object-contain"
-                  priority
-                />
+                <div className="relative flex min-h-48 min-w-48 items-center justify-center">
+                  {readyIndex !== openIndex && (
+                    <LogoLoader loop light className="absolute w-36" />
+                  )}
+                  <Image
+                    key={openIndex}
+                    src={current.image}
+                    alt={current.caption}
+                    width={1600}
+                    height={1200}
+                    sizes="100vw"
+                    onLoad={() => setReadyIndex(openIndex)}
+                    className={cn(
+                      "max-h-[75vh] w-auto max-w-full rounded-3xl object-contain transition-opacity duration-300",
+                      readyIndex === openIndex ? "opacity-100" : "opacity-0",
+                    )}
+                    priority
+                  />
+                </div>
                 <div className="space-y-1 text-center text-white">
                   {current.caption && (
                     <p className="text-lg">{current.caption}</p>
