@@ -1,7 +1,7 @@
 // لتاريخ الميلاد والوفاة (تاريخ مفصل)
 export const formatLocalizedDate = (
   dateString: string,
-  locale: "ar" | "tr"
+  locale: "ar" | "tr" | "en"
 ) => {
   const date = new Date(dateString);
   const day = date.getDate();
@@ -35,6 +35,20 @@ export const formatLocalizedDate = (
       "Ekim",
       "Kasım",
       "Aralık",
+    ],
+    en: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
   };
 

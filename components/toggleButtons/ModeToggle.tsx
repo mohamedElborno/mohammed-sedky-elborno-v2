@@ -11,25 +11,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+function themeLabel(theme: string | undefined) {
+  switch (theme) {
+    case "light":
+      return "تغيير الثيم إلى الوضع الداكن";
+    case "dark":
+      return "تغيير الثيم إلى الوضع الفاتح";
+    case "system":
+      return "تغيير الثيم إلى وضع النظام";
+    default:
+      return "تغيير الثيم";
+  }
+}
+
+const subscribeToNothing = () => () => {};
+
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
-  const [ariaLabel, setAriaLabel] = React.useState("تغيير الثيم"); // Initial static value
-
-  React.useEffect(() => {
-    const getThemeLabel = () => {
-      switch (theme) {
-        case "light":
-          return "تغيير الثيم إلى الوضع الداكن";
-        case "dark":
-          return "تغيير الثيم إلى الوضع الفاتح";
-        case "system":
-          return "تغيير الثيم إلى وضع النظام";
-        default:
-          return "تغيير الثيم";
-      }
-    };
-    setAriaLabel(getThemeLabel());
-  }, [theme]);
+  // The stored theme is unknown on the server, so the label only becomes
+  // specific after hydration; otherwise the markup would not match.
+  const hydrated = React.useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  );
+  const ariaLabel = hydrated ? themeLabel(theme) : themeLabel(undefined);
 
   return (
     <DropdownMenu>

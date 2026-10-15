@@ -1,0 +1,126 @@
+{
+  "metadata": {
+    "home": {
+      "title": "The Sheikh's Legacy",
+      "description": "The legacy of Sheikh Mohammed Sedky El-Borno: a digital archive of the life, books and writings of a great scholar, teacher and father.",
+      "keywords": "Sheikh Mohammed Sedky El-Borno, Dr Mohammed Sedky El-Borno, Mohammed Sedky El-Borno Abu Al-Harith, Encyclopedia of Islamic Legal Maxims, Islamic jurisprudence, usul al-fiqh, Islamic legal maxims, Islamic studies, Islamic books, scholars of Gaza, scholars of Palestine, Sunni jurisprudence, Islamic law, fiqh research, biography of Sheikh Mohammed Sedky El-Borno"
+    },
+    "biography": {
+      "title": "The Sheikh's Biography",
+      "description": "The life and scholarship of Sheikh Mohammed Sedky El-Borno.",
+      "keywords": "biography of Sheikh Mohammed Sedky El-Borno, life of Sheikh Mohammed Sedky El-Borno, Sheikh Mohammed Sedky, Abu Al-Harith, scholars of Gaza, scholars of Palestine, jurisprudence references"
+    },
+    "books": {
+      "title": "The Sheikh's Books",
+      "description": "Explore the books of Dr Mohammed Sedky El-Borno on Islamic legal theory, a scholar who left a lasting mark on the field through his valuable works.",
+      "keywords": "Mohammed Sedky El-Borno, books of the Sheikh, Encyclopedia of Islamic Legal Maxims, usul al-fiqh, Islamic books, Islamic jurisprudence, Islamic studies, Sunni jurisprudence"
+    },
+    "media": {
+      "title": "The Sheikh's Videos",
+      "description": "A gateway to recorded lecture series and poetry readings by Sheikh Mohammed Sedky El-Borno.",
+      "keywords": "videos of Sheikh Mohammed Sedky El-Borno, lessons, jurisprudence lectures, Islamic videos, lecture series, poems of Sheikh Mohammed Sedky El-Borno, lessons in usul al-fiqh"
+    }
+  },
+
+  "navigation": {
+    "siteTitle": "The Sheikh's Legacy",
+    "home": "Home",
+    "biography": "Biography",
+    "books": "Books",
+    "media": "Videos",
+    "menu": "Menu",
+    "auto": "Auto",
+    "backToHome": "Back to home"
+  },
+
+  "home": {
+    "hero": {
+      "title": "Sheikh Mohammed Sedky El-Borno – A Life of Scholarship",
+      "description": "A digital archive of the life, books and writings of a great scholar, teacher and father.",
+      "primaryButton": "Discover his life",
+      "secondaryButton": "Explore his works",
+      "imageAlt": "Portrait of the Sheikh"
+    },
+    "featuredWorks": {
+      "subtitle": "The Sheikh's works",
+      "title": "Browse the most influential works",
+      "description": "Discover the books, poems and articles that have touched countless lives."
+    },
+    "categories": {
+      "books": {
+        "title": "Books",
+        "description": "Comprehensive works on Islamic jurisprudence."
+      },
+      "writings": {
+        "title": "Articles",
+        "description": "Articles and commentary on contemporary questions and classical texts."
+      },
+      "poems": {
+        "title": "Poems",
+        "description": "Spiritual and reflective poetry expressing the essence of faith and devotion."
+      },
+      "viewCollection": "View collection"
+    },
+    "about": {
+      "title": "About the Sheikh",
+      "description": "Sheikh Mohammed Sedky El-Borno (1930 - 2025) was a renowned scholar, author and spiritual guide who devoted his life to the service of knowledge and religion.",
+      "button": "Read the full biography",
+      "quote": {
+        "text": "Add a notable quote from the Sheikh that reflects his wisdom and outlook.",
+        "author": "Sheikh Mohammed Sedky El-Borno",
+        "source": "From [quote source]"
+      }
+    },
+    "contribute": {
+      "title": "Contribute to the archive",
+      "description": "Help us preserve and expand this collection by sharing materials, translations or memories related to Sheikh Mohammed Sedky El-Borno.",
+      "button": "Get in touch"
+    }
+  },
+
+  "footer": {
+    "siteTitle": "The Sheikh's Legacy",
+    "tagline": "Dedicated to preserving and sharing the wisdom and contributions of Sheikh Mohammed Sedky El-Borno.",
+    "copyright": "Prepared by Mohammed Abdulrahman El-Borno",
+    "explore": {
+      "title": "Explore",
+      "home": "Home",
+      "biography": "Biography",
+      "books": "Books",
+      "lessons": "Lessons",
+      "poems": "Poems"
+    },
+    "connect": {
+      "title": "Connect",
+      "contact": "Contact us"
+    }
+  },
+
+  "biography": {
+    "title": "Biography of Sheikh Mohammed Sedky El-Borno",
+    "subtitle": "Scholar, teacher and jurist",
+    "timeline": "Timeline"
+  },
+
+  "media": {
+    "title": "The Sheikh's Videos",
+    "description": "A gateway to recorded lecture series and poetry readings by Sheikh Mohammed Sedky El-Borno."
+  },
+
+  "books": {
+    "title": "Books",
+    "description": "Comprehensive works on Islamic jurisprudence.",
+    "bookNotFoundPDF": "No PDF copy is available for this book",
+    "bookRead": "Read and download the book"
+  },
+
+  "admin": {
+    "title": "Admin panel",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "cancel": "Cancel"
+  }
+}

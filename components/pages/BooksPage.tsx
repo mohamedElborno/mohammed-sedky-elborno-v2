@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { Link as LocaleLink } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,35 +11,35 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useIntl } from "react-intl";
-import { Book } from "@/sanity/types";
+import { useTranslations } from "next-intl";
+import { Preloaded, usePreloadedQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Book } from "@/content/types";
 
 export const BooksPage = ({
-  booksDetails,
   locale,
+  preloaded,
 }: {
-  booksDetails: Book[];
   locale: string;
+  preloaded: Preloaded<typeof api.content.getBooks>;
 }) => {
-  const intl = useIntl();
+  const booksDetails = usePreloadedQuery(preloaded);
+  const t = useTranslations("books");
+  const tNav = useTranslations("navigation");
   return (
     <div className="container py-12 px-6 md:px-8">
-      <Link
+      <LocaleLink
         href="/"
         className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary mb-8"
       >
         <ArrowLeft className={`h-4 w-4 ${locale === "ar" && "rotate-180"}`} />
-        {intl.formatMessage({ id: "back-to-home" })}
-      </Link>
+        {tNav("backToHome")}
+      </LocaleLink>
 
       <div className="space-y-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold sm:text-5xl">
-            {intl.formatMessage({ id: "books.title" })}
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            {intl.formatMessage({ id: "books.description" })}
-          </p>
+          <h1 className="text-4xl font-bold sm:text-5xl">{t("title")}</h1>
+          <p className="text-xl text-muted-foreground">{t("description")}</p>
         </div>
         <Separator />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -79,14 +80,12 @@ export const BooksPage = ({
                           aria-label={`تحميل كتاب ${book?.title}`}
                           className="rounded-lg cursor-pointer"
                         >
-                          {intl.formatMessage({ id: "books.bookRead" })}
+                          {t("bookRead")}
                         </Button>
                       </Link>
                     ) : (
                       <span className="text-sm dark:text-red-900 text-red-800">
-                        {intl.formatMessage({
-                          id: "books.bookNotFoundPDF",
-                        })}
+                        {t("bookNotFoundPDF")}
                       </span>
                     )}
                   </CardFooter>

@@ -1,6 +1,5 @@
-import { NavparDataType } from "@/sanity/types";
-import Link from "next/link";
-import React from "react";
+import { NavparDataType } from "@/content/types";
+import { Link } from "@/i18n/navigation";
 
 export const NavbarMobile = ({
   boolean,

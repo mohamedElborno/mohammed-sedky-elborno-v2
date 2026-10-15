@@ -1,24 +1,23 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavbarMobile } from "./NavbarMobile";
 import { NavbarDesktop } from "./NavbarDesktop";
-import { useIntl } from "react-intl";
-import { NavparDataType } from "@/sanity/types";
+import { useTranslations } from "next-intl";
+import { NavparDataType } from "@/content/types";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const intl = useIntl();
+  const t = useTranslations("navigation");
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  // The menu is tied to the route it was opened on, so navigating closes it.
+  const [openedOn, setOpenedOn] = useState<string | null>(null);
+  const isOpen = openedOn === pathname;
+  const setIsOpen = (open: boolean) => setOpenedOn(open ? pathname : null);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -27,7 +26,7 @@ export default function Navbar() {
         navRef.current &&
         !navRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setOpenedOn(null);
       }
     };
 
@@ -49,19 +48,19 @@ export default function Navbar() {
   const navbarData: NavparDataType[] = [
     {
       link: "/",
-      title: intl.formatMessage({ id: "navigation.home" }),
+      title: t("home"),
     },
     {
       link: "/biography",
-      title: intl.formatMessage({ id: "navigation.biography" }),
+      title: t("biography"),
     },
     {
       link: "/books",
-      title: intl.formatMessage({ id: "navigation.books" }),
+      title: t("books"),
     },
     {
       link: "/media",
-      title: intl.formatMessage({ id: "navigation.media" }),
+      title: t("media"),
     },
   ];
 

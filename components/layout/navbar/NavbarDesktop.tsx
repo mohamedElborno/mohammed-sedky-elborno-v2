@@ -1,10 +1,9 @@
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 import { BurgerMenu } from "./BurgerMenu";
 import { ModeToggle } from "@/components/toggleButtons/ModeToggle";
 import LanguageChanger from "@/components/toggleButtons/LanguageChanger";
-import { NavparDataType } from "@/sanity/types";
+import { NavparDataType } from "@/content/types";
 
 export const NavbarDesktop = ({
   isOpen,

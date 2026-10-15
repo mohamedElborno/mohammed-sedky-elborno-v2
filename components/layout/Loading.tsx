@@ -1,4 +1,3 @@
-// app/loading-indicator.tsx
 "use client";
 
 import { Loader2 } from "lucide-react";

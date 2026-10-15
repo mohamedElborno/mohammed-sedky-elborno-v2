@@ -1,19 +1,16 @@
-import { getHomePage } from "@/sanity/queries";
+import { preloadQuery } from "convex/nextjs";
+import { api } from "@/convex/_generated/api";
 import { HomePage } from "@/components/pages/home/HomePage";
-import getIntl from "../intl";
-import ServerIntlProvider from "@/components/providers/ServerIntlProvider";
-export const revalidate = 10;
+import { toLocale } from "@/i18n/routing";
+
 export default async function Home({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const intl = await getIntl(locale);
-  const homePage = await getHomePage(locale || "ar");
-  return (
-    <ServerIntlProvider messages={intl.messages} locale={intl.locale}>
-      <HomePage locale={locale} homePage={homePage} />
-    </ServerIntlProvider>
-  );
+  const preloaded = await preloadQuery(api.content.getHomePage, {
+    locale: toLocale(locale),
+  });
+  return <HomePage locale={locale} preloaded={preloaded} />;
 }

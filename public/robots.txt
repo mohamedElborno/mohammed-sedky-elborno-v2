@@ -1,10 +1,4 @@
 User-agent: *
-Disallow: /studio/
-Disallow: /sanity/lib/
-Disallow: /sanity/schemaTypes/
-Disallow: /sanity/env.ts
-Disallow: /sanity/queries.ts
-Disallow: /sanity/structure.ts
-Disallow: /sanity/types.ts
+Disallow: /admin
 Allow: /
 Sitemap: https://mohammed-sedky-elborno.vercel.app/sitemap.xml

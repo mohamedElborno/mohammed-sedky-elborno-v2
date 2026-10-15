@@ -1,8 +1,8 @@
-import { useIntl } from "react-intl";
+"use client";
+import { useTranslations } from "next-intl";
 
-// Update the component to receive dictionary as a prop
 export default function Footer() {
-  const intl = useIntl();
+  const t = useTranslations("footer");
   return (
     <footer className="border-t mt-auto ">
       <div className="border-t py-6 md:py-8">
@@ -11,7 +11,7 @@ export default function Footer() {
             className={`text-center text-sm text-muted-foreground md:text-left`}
           >
             &copy; {new Date().getFullYear()}
-            {" | " + intl.formatMessage({ id: "footer.copyright" })}
+            {" | " + t("copyright")}
           </p>
         </div>
       </div>

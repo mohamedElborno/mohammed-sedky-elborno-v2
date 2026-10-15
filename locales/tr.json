@@ -1,76 +1,126 @@
 {
-  "metadata.title": "Şeyh Mirası",
-  "metadata.description": "Şeyh Muhammed Sedki El-Borno'nun mirası, büyük bir şeyh, öğretmen ve baba olan kişinin hayatı, kitapları ve anekdotlarından oluşan dijital bir arşivdir.",
-  "metadata.keywords": "Şeyh Muhammed Sedki El-Borno, Dr. Muhammed Sedki El-Borno, Alim Muhammed Sedki El-Borno, Muhammed Sedki El-Borno Gazzevi, Muhammed Sedki, Muhammed Sedki El-Borno Ebu’l-Haris, Fıkhi Kurallar Ansiklopedisi, El-Vuciz Fi İzah Kavaid El-Fiqh El-Küliye, Şeyh Muhammed Sedki El-Borno, İslam Fıkhı, Usûl-i Fıkıh, Ehl-i Sünnet Fıkhı, İslami Çalışmalar, İslam Hukuku, Gazzeli Alimler, Şeyh Muhammed Sedki El-Borno'nun Eserleri, İslam Eserleri, Fıkıh Kitapları, Şeyh Muhammed Sedki El-Borno'nun Katkıları, Şeriat, Fıkıh, Akademik İslam Araştırmaları, Fıkıh İlmihali, Usûl-i Fıkıh Çalışmaları, Fıkıh Kuralları, Eserlerin Tanıtımı, İslam Çalışmaları, İslamî Araştırmalar, Filistinli Alimler, Filistinli Şeyhler, Gazze İslam Alimleri, Şeyh Muhammed Sedki El-Borno'nun Hayatı, İslamî Eğitim, İslam Hukuku, Fıkıh Bilgisi, Şeyh Muhammed Sedki El-Borno'nun Şiirleri",
+  "metadata": {
+    "home": {
+      "title": "Şeyh Mirası",
+      "description": "Şeyh Muhammed Sedki El-Borno'nun mirası, büyük bir şeyh, öğretmen ve baba olan kişinin hayatı, kitapları ve anekdotlarından oluşan dijital bir arşivdir.",
+      "keywords": "Şeyh Muhammed Sedki El-Borno, Dr. Muhammed Sedki El-Borno, Alim Muhammed Sedki El-Borno, Muhammed Sedki El-Borno Gazzevi, Muhammed Sedki, Muhammed Sedki El-Borno Ebu’l-Haris, Fıkhi Kurallar Ansiklopedisi, El-Vuciz Fi İzah Kavaid El-Fiqh El-Küliye, Şeyh Muhammed Sedki El-Borno, İslam Fıkhı, Usûl-i Fıkıh, Ehl-i Sünnet Fıkhı, İslami Çalışmalar, İslam Hukuku, Gazzeli Alimler, Şeyh Muhammed Sedki El-Borno'nun Eserleri, İslam Eserleri, Fıkıh Kitapları, Şeyh Muhammed Sedki El-Borno'nun Katkıları, Şeriat, Fıkıh, Akademik İslam Araştırmaları, Fıkıh İlmihali, Usûl-i Fıkıh Çalışmaları, Fıkıh Kuralları, Eserlerin Tanıtımı, İslam Çalışmaları, İslamî Araştırmalar, Filistinli Alimler, Filistinli Şeyhler, Gazze İslam Alimleri, Şeyh Muhammed Sedki El-Borno'nun Hayatı, İslamî Eğitim, İslam Hukuku, Fıkıh Bilgisi, Şeyh Muhammed Sedki El-Borno'nun Şiirleri"
+    },
+    "biography": {
+      "title": "Biyografi",
+      "description": "Şeyh Muhammed Sedki El-Borno'nun Hayatı ve İlmi",
+      "keywords": "Şeyh Muhammed Sedki El-Borno'nun Biyografisi, Şeyh Muhammed Sedki El-Borno'nun Hayatı, Şeyh Muhammed Sedki, Şeyh Muhammed Sedki El-Borno Ebu’l-Haris, Gazzeli Alimler, Filistinli Alimler, Şeyh Muhammed Sedki'nin Tarihi, Fıkhi Kaynaklar, Şeyh Muhammed Sedki'nin Özgeçmişi"
+    },
+    "books": {
+      "title": "Şeyh Kitapları",
+      "description": "Allame Doktor Muhammed Sedki El-Borno'nun Usûl-i Fıkıh Alanındaki Eserlerini Keşfedin: Bu ilimde değerli ve etkili eserleriyle belirgin bir iz bırakan Celil Şeyh",
+      "keywords": "Muhammed Sedki El-Borno, Şeyhin Kitapları, Dr. Muhammed Sedki El-Borno'nun Eserleri, Gazzevi, Ebu’l-Haris, El-Borno Ailesi, Fıkıh Usûlü, Fıkhî Kurallar Ansiklopedisi, Fıkhî Temel İlkeler, İslam Kitapları, İslam Hukuku, İslami Çalışmalar, Fıkıh Usûlü, Ehl-i Sünnet Fıkhı"
+    },
+    "media": {
+      "title": "Şeyh'in Videoları",
+      "description": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı",
+      "keywords": "Şeyh Muhammed Sedki El-Borno'nun Videoları, Şeyh Muhammed Sedki'nin Dersleri, Fıkhi Konuşmalar, İslami Videolar, Bilimsel Videolar, İlmi Silsileler, Şeyh Muhammed Sedki El-Borno'nun Şiirleri, Usûl-i Fıkıh Dersleri, İslami Videolar"
+    }
+  },
 
-  "metadata.title.biography": "Biyografi",
-  "metadata.description.biography": "Şeyh Muhammed Sedki El-Borno'nun Hayatı ve İlmi",
-  "metadata.keywords.biography": "Şeyh Muhammed Sedki El-Borno'nun Biyografisi, Şeyh Muhammed Sedki El-Borno'nun Hayatı, Şeyh Muhammed Sedki, Şeyh Muhammed Sedki El-Borno Ebu’l-Haris, Gazzeli Alimler, Filistinli Alimler, Şeyh Muhammed Sedki'nin Tarihi, Fıkhi Kaynaklar, Şeyh Muhammed Sedki'nin Özgeçmişi",
+  "navigation": {
+    "siteTitle": "Şeyh Mirası",
+    "home": "Ana Sayfa",
+    "biography": "Biyografi",
+    "books": "Kitaplar",
+    "media": "Şeyh'in Videoları",
+    "menu": "Menü",
+    "auto": "otomatik",
+    "backToHome": "Ana Sayfaya Geçin"
+  },
 
-  "metadata.title.books": "Şeyh Kitapları",
-  "metadata.description.books": "Allame Doktor Muhammed Sedki El-Borno'nun Usûl-i Fıkıh Alanındaki Eserlerini Keşfedin: Bu ilimde değerli ve etkili eserleriyle belirgin bir iz bırakan Celil Şeyh",
-  "metadata.keywords.books": "Muhammed Sedki El-Borno, Şeyhin Kitapları, Dr. Muhammed Sedki El-Borno'nun Eserleri, Gazzevi, Ebu’l-Haris, El-Borno Ailesi, Fıkıh Usûlü, Fıkhî Kurallar Ansiklopedisi, Fıkhî Temel İlkeler, İslam Kitapları, İslam Hukuku, İslami Çalışmalar, Fıkıh Usûlü, Ehl-i Sünnet Fıkhı",
+  "home": {
+    "hero": {
+      "title": "Şeyh Muhammed Sedki El-Borno'in Mirasını Korumak",
+      "description": "Saygıdeğer bir alim ve manevi rehberin hayatı, öğretileri ve edebi katkılarının dijital arşivi.",
+      "primaryButton": "Hayatını Öğren",
+      "secondaryButton": "Eserlerini Keşfet",
+      "imageAlt": "Şeyh'in Portresi"
+    },
+    "featuredWorks": {
+      "subtitle": "Öne Çıkan Eserler",
+      "title": "En Etkili Eserleri Keşfedin",
+      "description": "Sayısız hayata dokunan en etkili kitapları, şiirleri ve yazıları keşfedin."
+    },
+    "categories": {
+      "books": {
+        "title": "Kitaplar",
+        "description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler."
+      },
+      "writings": {
+        "title": "Yazılar",
+        "description": "Çağdaş konular ve geleneksel metinler üzerine denemeler, makaleler ve yorumlar."
+      },
+      "poems": {
+        "title": "Şiirler",
+        "description": "İnanç ve adanmışlığın özünü yakalayan manevi ve düşündürücü şiirler."
+      },
+      "viewCollection": "Koleksiyonu Görüntüle"
+    },
+    "about": {
+      "title": "Şeyh Hakkında",
+      "description": "Şeyh Muhammed Sedki El-Borno (YIL-YIL), hayatını bilgi ve inanç hizmetine adamış tanınmış bir alim, yazar ve manevi rehberdi.",
+      "button": "Tam Biyografiyi Oku",
+      "quote": {
+        "text": "Şeyh'in bilgeliğini ve bakış açısını yansıtan dikkat çekici bir alıntı ekleyin.",
+        "author": "Şeyh Muhammed Sedki El-Borno",
+        "source": "[Alıntı Kaynağı]'ndan"
+      }
+    },
+    "contribute": {
+      "title": "Arşive Katkıda Bulunun",
+      "description": "Şeyh Muhammed Sedki El-Borno ile ilgili materyalleri, çevirileri veya anıları paylaşarak bu koleksiyonu korumamıza ve genişletmemize yardımcı olun.",
+      "button": "Bizimle İletişime Geçin"
+    }
+  },
 
-  "metadata.title.media": "Şeyh'in Videoları",
-  "metadata.description.media": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı",
-  "metadata.keywords.media": "Şeyh Muhammed Sedki El-Borno'nun Videoları, Şeyh Muhammed Sedki'nin Dersleri, Fıkhi Konuşmalar, İslami Videolar, Bilimsel Videolar, İlmi Silsileler, Şeyh Muhammed Sedki El-Borno'nun Şiirleri, Usûl-i Fıkıh Dersleri, İslami Videolar",
+  "footer": {
+    "siteTitle": "Şeyh Mirası",
+    "tagline": "Şeyh Muhammed Sedki El-Borno'in bilgeliğini ve katkılarını korumaya ve paylaşmaya adanmıştır.",
+    "copyright": "Hazırlayan: Muhammed Abdurrahman El-Borno",
+    "explore": {
+      "title": "Keşfet",
+      "home": "Ana Sayfa",
+      "biography": "Biyografi",
+      "books": "Kitaplar",
+      "lessons": "Dersler",
+      "poems": "Şiirler"
+    },
+    "connect": {
+      "title": "Bağlantı",
+      "contact": "İletişim"
+    }
+  },
 
-  "navigation.siteTitle": "Şeyh Mirası",
-  "navigation.home": "Ana Sayfa",
-  "navigation.biography": "Biyografi",
-  "navigation.books": "Kitaplar",
-  "navigation.media": "Şeyh'in Videoları",
-  "navigation.menu": "Menü",
-  "navigation.auto": "otomatik",
+  "biography": {
+    "title": "Şeyh Muhammed Sedki El-Borno'nun Biyografisi",
+    "subtitle": "Şeyh, öğretmen ve fakih",
+    "timeline": "Tarih Zamanı"
+  },
 
-  "home.hero.title": "Şeyh Muhammed Sedki El-Borno'in Mirasını Korumak",
-  "home.hero.description": "Saygıdeğer bir alim ve manevi rehberin hayatı, öğretileri ve edebi katkılarının dijital arşivi.",
-  "home.hero.primaryButton": "Hayatını Öğren",
-  "home.hero.secondaryButton": "Eserlerini Keşfet",
-  "home.hero.imageAlt": "Şeyh'in Portresi",
+  "media": {
+    "title": "Şeyh'in Videoları",
+    "description": "Şeyh Muhammed Sedki El-Borno'nun Bilimsel Silsilelerini ve Kaydedilmiş Şiir Metinlerini İçeren Video Portalı"
+  },
 
-  "home.featuredWorks.subtitle": "Öne Çıkan Eserler",
-  "home.featuredWorks.title": "En Etkili Eserleri Keşfedin",
-  "home.featuredWorks.description": "Sayısız hayata dokunan en etkili kitapları, şiirleri ve yazıları keşfedin.",
+  "books": {
+    "title": "Kitaplar",
+    "description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler.",
+    "bookNotFoundPDF": "Kitabın PDF dosyası bulunamadı",
+    "bookRead": "Kitabı Oku ve Yükle"
+  },
 
-  "home.categories.books.title": "Kitaplar",
-  "home.categories.books.description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler.",
-  "home.categories.writings.title": "Yazılar",
-  "home.categories.writings.description": "Çağdaş konular ve geleneksel metinler üzerine denemeler, makaleler ve yorumlar.",
-  "home.categories.poems.title": "Şiirler",
-  "home.categories.poems.description": "İnanç ve adanmışlığın özünü yakalayan manevi ve düşündürücü şiirler.",
-  "home.categories.viewCollection": "Koleksiyonu Görüntüle",
-
-  "home.about.title": "Şeyh Hakkında",
-  "home.about.description": "Şeyh Muhammed Sedki El-Borno (YIL-YIL), hayatını bilgi ve inanç hizmetine adamış tanınmış bir alim, yazar ve manevi rehberdi.",
-  "home.about.button": "Tam Biyografiyi Oku",
-  "home.about.quote.text": "Şeyh'in bilgeliğini ve bakış açısını yansıtan dikkat çekici bir alıntı ekleyin.",
-  "home.about.quote.author": "Şeyh Muhammed Sedki El-Borno",
-  "home.about.quote.source": "[Alıntı Kaynağı]'ndan",
-
-  "home.contribute.title": "Arşive Katkıda Bulunun",
-  "home.contribute.description": "Şeyh Muhammed Sedki El-Borno ile ilgili materyalleri, çevirileri veya anıları paylaşarak bu koleksiyonu korumamıza ve genişletmemize yardımcı olun.",
-  "home.contribute.button": "Bizimle İletişime Geçin",
-
-  "footer.siteTitle": "Şeyh Mirası",
-  "footer.tagline": "Şeyh Muhammed Sedki El-Borno'in bilgeliğini ve katkılarını korumaya ve paylaşmaya adanmıştır.",
-  "footer.copyright": "Hazırlayan: Muhammed Abdurrahman El-Borno",
-
-  "footer.explore.title": "Keşfet",
-  "footer.explore.home": "Ana Sayfa",
-  "footer.explore.biography": "Biyografi",
-  "footer.explore.books": "Kitaplar",
-  "footer.explore.lessons": "Dersler",
-  "footer.explore.poems": "Şiirler",
-
-  "footer.connect.title": "Bağlantı",
-  "footer.connect.contact": "İletişim",
-
-  "back-to-home": "Ana Sayfaya Geçin",
-  "biography.timeline": "Tarih Zamanı",
-
-  "books.title": "Kitaplar",
-  "books.description": "Teoloji, maneviyat ve İslam hukuku üzerine kapsamlı eserler.",
-  "books.bookNotFoundPDF": "Kitabın PDF dosyası bulunamadı",
-  "books.bookRead": "Kitabı Oku ve Yükle"
+  "admin": {
+    "title": "Yönetim Paneli",
+    "signIn": "Giriş Yap",
+    "signOut": "Çıkış Yap",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor...",
+    "saved": "Kaydedildi",
+    "cancel": "İptal"
+  }
 }

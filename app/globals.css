@@ -127,8 +127,6 @@
 }
 
 @theme {
-  --font-amiri: [ "var(--font-amiri)"];
-  --font-luxuriousRoman: [ "var(--font-luxurious-roman)"];
   --font-cairo: [ "var(--font-cairo)"];
   --font-roboto: [ "var(--font-roboto)"];
 }

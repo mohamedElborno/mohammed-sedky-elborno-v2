@@ -1,9 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { useCurrentLocale } from "next-i18n-router/client";
-import i18nConfig from "@/i18nConfig";
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { routing, type Locale } from "@/i18n/routing";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,67 +18,85 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 
+const LOCALE_NAMES: Record<Locale, string> = {
+  ar: "العربية",
+  tr: "Türkçe",
+  en: "English",
+};
+
+const SWITCH_LABELS: Record<Locale, string> = {
+  ar: "تغيير اللغة إلى العربية",
+  tr: "Dili Türkçe'ye Değiştir",
+  en: "Switch language to English",
+};
+
+// Arabic is the source language; the others are machine translated.
+const TRANSLATION_NOTES: Partial<Record<Locale, string>> = {
+  tr: "Çeviri yapay zeka ile yapılmıştır.",
+  en: "This translation was generated with AI.",
+};
+
 export default function LanguageChanger() {
   const router = useRouter();
-  const currentPathname = usePathname();
-  const currentLocale = useCurrentLocale(i18nConfig);
+  const pathname = usePathname();
+  const currentLocale = useLocale() as Locale;
 
-  const handleChange = (newLocale: string) => {
-    const days = 30;
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = date.toUTCString();
-    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
+  // Switching is a client-side navigation: keep the reader where they were
+  // instead of jumping back to the top, which made it feel like a reload.
+  const handleChange = (newLocale: Locale) => {
+    if (newLocale === currentLocale) return;
+    router.replace(pathname, { locale: newLocale, scroll: false });
+  };
 
-    if (currentLocale === i18nConfig.defaultLocale) {
-      router.push("/" + newLocale + currentPathname);
-    } else {
-      router.push(
-        currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)
-      );
+  // Fetch the other languages while the menu is open so the switch is instant.
+  const prefetchLocales = (open: boolean) => {
+    if (!open) return;
+    for (const locale of routing.locales) {
+      if (locale !== currentLocale) router.prefetch(pathname, { locale });
     }
-
-    router.refresh();
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={prefetchLocales}>
       <DropdownMenuTrigger asChild value={currentLocale}>
         <Button
           variant="ghost"
           size="icon"
-          aria-label={
-            currentLocale === "ar"
-              ? "تغيير اللغة إلى العربية"
-              : currentLocale === "tr"
-                ? "Dili Türkçe'ye Değiştir"
-                : "تغيير اللغة"
-          }
+          aria-label={SWITCH_LABELS[currentLocale] ?? "تغيير اللغة"}
         >
           <Languages className="scale-125" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
-        {i18nConfig.locales.map((locale) => (
-          <DropdownMenuItem key={locale} onClick={() => handleChange(locale)}>
-            {locale === "ar" ? "العربية" : ""}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  {locale === "tr" && (
-                    <div className="flex items-center gap-2">Türkçe</div>
-                  )}
-                </TooltipTrigger>
-                <TooltipContent
-                  side="bottom"
-                  className="mt-1 bg-popover text-popover-foreground border"
-                >
-                  <p>Çeviri yapay zeka ile yapılmıştır.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </DropdownMenuItem>
-        ))}
+        <TooltipProvider>
+          {routing.locales.map((locale) => {
+            const note = TRANSLATION_NOTES[locale];
+            const name = LOCALE_NAMES[locale];
+
+            return (
+              <DropdownMenuItem
+                key={locale}
+                onClick={() => handleChange(locale)}
+              >
+                {note ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-2">{name}</div>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="bottom"
+                      className="mt-1 bg-popover text-popover-foreground border"
+                    >
+                      <p>{note}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  name
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </TooltipProvider>
       </DropdownMenuContent>
     </DropdownMenu>
   );

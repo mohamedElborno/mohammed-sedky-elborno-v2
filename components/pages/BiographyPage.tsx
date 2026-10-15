@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import {
   ArrowLeft,
@@ -9,28 +9,36 @@ import {
   BookOpen,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { PortableText } from "@portabletext/react";
-import { useIntl } from "react-intl";
-import { PortableTextComponents } from "../BlockStyle";
+import { useTranslations } from "next-intl";
+import { Preloaded, usePreloadedQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { RichText } from "../BlockStyle";
 import { formatLocalizedDate, formatYearOnly } from "../FormatLocalizedDate";
-import { Biography, Timeline } from "@/sanity/types";
+import { Timeline } from "@/content/types";
+import { EmptyContent } from "../EmptyContent";
+import { toLocale } from "@/i18n/routing";
 export const BiographyPage = ({
   locale,
-  biography,
+  preloaded,
 }: {
   locale: string;
-  biography: Biography;
+  preloaded: Preloaded<typeof api.content.getBiography>;
 }) => {
-  const intl = useIntl();
+  const biography = usePreloadedQuery(preloaded);
+  const t = useTranslations("biography");
+  const tNav = useTranslations("navigation");
   const isRtl = locale === "tr";
+
+  if (!biography) return <EmptyContent />;
+
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden">
       <Image
         src="/olive2.svg"
-        alt="test"
+        alt=""
         width={400}
         height={400}
-        className={`overflow-hidden hidden md:block dark:invert z-0 absolute opacity-20 top-20 ${
+        className={`h-auto overflow-hidden hidden md:block dark:invert z-0 absolute opacity-20 top-20 ${
           isRtl
             ? "-left-8 scale-x-[1] rotate-[9deg]"
             : "-right-8 -scale-x-[1] -rotate-[9deg]"
@@ -38,7 +46,7 @@ export const BiographyPage = ({
       />
       <Image
         src="/olive10.svg"
-        alt="test"
+        alt=""
         width={600}
         height={600}
         className={`overflow-hidden w-auto h-auto lg:block dark:invert z-0 absolute opacity-20 bottom-56 ${
@@ -53,33 +61,26 @@ export const BiographyPage = ({
           className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary mb-8"
         >
           <ArrowLeft className={`h-4 w-4 ${locale === "ar" && "rotate-180"}`} />
-          {intl.formatMessage({ id: "back-to-home" })}
+          {tNav("backToHome")}
         </Link>
 
         <div className="grid gap-10 md:grid-cols-[1fr_300px] lg:gap-16">
           <div className="space-y-8 order-2 md:order-1">
             <div className="space-y-4">
-              <h1 className="text-4xl font-bold sm:text-5xl">
-                {biography?.title}
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                {biography?.subtitle}
-              </p>
+              <h1 className="text-4xl font-bold sm:text-5xl">{t("title")}</h1>
+              <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
             </div>
 
             <div className="prose prose-stone dark:prose-invert max-w-none">
-              <PortableText
-                components={PortableTextComponents}
-                value={biography?.description || ""}
-              />
+              <RichText value={biography?.description || ""} />
             </div>
           </div>
           <Image
             src="/olive2.svg"
-            alt="test"
+            alt=""
             width={200}
             height={200}
-            className={`overflow-hidden md:hidden dark:invert absolute top-10 z-0 opacity-100 drop-shadow-2xl -rotate-45 ${
+            className={`h-auto overflow-hidden md:hidden dark:invert absolute top-10 z-0 opacity-100 drop-shadow-2xl -rotate-45 ${
               isRtl
                 ? "-right-16 rotate-[220deg] scale-y-[-1] "
                 : "-left-16 scale-x-[1]"
@@ -110,12 +111,12 @@ export const BiographyPage = ({
                     <span>
                       {formatLocalizedDate(
                         biography?.card?.birthDate,
-                        locale as "ar" | "tr"
+                        toLocale(locale)
                       )}{" "}
                       -{" "}
                       {formatLocalizedDate(
                         biography?.card?.deathDate,
-                        locale as "ar" | "tr"
+                        toLocale(locale)
                       )}
                     </span>
                   </div>
@@ -142,9 +143,7 @@ export const BiographyPage = ({
               </div>
             </div>
             <div className="sm:h-fit rounded-lg border p-4 space-y-4 shadow-lg dark:shadow-gray-500/20 relative">
-              <h3 className="font-semibold">
-                {intl.formatMessage({ id: "biography.timeline" })}
-              </h3>
+              <h3 className="font-semibold">{t("timeline")}</h3>
               <Separator />
               <div className="space-y-4">
                 {biography?.timeline?.map((item: Timeline, index: number) => (

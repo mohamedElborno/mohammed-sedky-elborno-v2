@@ -18,7 +18,6 @@ export default function YouTubeModal({
 
   const videoId =
     new URL(videoUrl).searchParams.get("v") || videoUrl.split("/embed/")[1];
-  console.log(thumbnailUrl);
   return (
     <>
       <div

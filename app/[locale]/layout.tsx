@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import "../globals.css";
-import ServerIntlProvider from "@/components/providers/ServerIntlProvider";
-import i18nConfig from "@/i18nConfig";
 import LayoutClient from "@/components/layout/LayoutClient";
-import getIntl from "../intl";
-import { cache } from "react";
-
-const getIntlCached = cache(getIntl);
-export const revalidate = 10;
-export const dynamic = "force-dynamic";
-export function generateStaticParams() {
-  return i18nConfig.locales.map((locale) => ({ locale }));
-}
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages, getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import "../globals.css";
 
 export async function generateMetadata({
   params,
@@ -19,11 +12,12 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const intl = await getIntlCached(locale);
+  const t = await getTranslations({ locale, namespace: "metadata.home" });
+
   return {
     metadataBase: new URL("https://mohammed-sedky-elborno.vercel.app"),
-    title: intl.formatMessage({ id: "metadata.title" }),
-    description: intl.formatMessage({ id: "metadata.description" }),
+    title: t("title"),
+    description: t("description"),
     icons: {
       icon: "/logo.svg",
     },
@@ -31,15 +25,15 @@ export async function generateMetadata({
       "google-site-verification": "s0Dj8N7kfJLX9pGqhwkhmUP87lw9aKCWqXtXZCDbGIE",
     },
     openGraph: {
-      title: intl.formatMessage({ id: "metadata.title" }),
-      description: intl.formatMessage({ id: "metadata.description" }),
-      siteName: intl.formatMessage({ id: "metadata.title" }),
+      title: t("title"),
+      description: t("description"),
+      siteName: t("title"),
       images: [
         {
           url: "https://mohammed-sedky-elborno.vercel.app/photoGraph.png",
           width: 1200,
           height: 630,
-          alt: intl.formatMessage({ id: "metadata.description" }),
+          alt: t("description"),
         },
       ],
     },
@@ -54,7 +48,12 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  const intl = await getIntl(locale);
+
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  const messages = await getMessages();
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -75,9 +74,9 @@ export default async function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden">
-        <ServerIntlProvider messages={intl.messages} locale={intl.locale}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <LayoutClient locale={locale}>{children}</LayoutClient>
-        </ServerIntlProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

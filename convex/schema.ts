@@ -1,0 +1,85 @@
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+/**
+ * Only real content lives in the database: images, links, and the repeatable
+ * lists (books, timeline, lessons, work cards). Page headings, descriptions,
+ * button labels and the quote are static UI text and live in locales/*.json.
+ */
+
+/** Every editable text exists in both site languages. */
+export const localized = v.object({
+  ar: v.string(),
+  tr: v.string(),
+  en: v.string(),
+});
+
+/** Images live in Convex file storage; the document only keeps the id. */
+export const imageId = v.union(v.id("_storage"), v.null());
+
+export const worksCategoryItem = v.object({
+  icon: imageId,
+  title: localized,
+  description: localized,
+  workUrl: v.string(),
+});
+
+export const timelineItem = v.object({
+  title: localized,
+  date: v.string(),
+});
+
+export const lessonItem = v.object({
+  title: localized,
+  description: localized,
+  image: imageId,
+  url: v.string(),
+});
+
+export const biographyCard = v.object({
+  image: imageId,
+  name: localized,
+  birthDate: v.string(),
+  deathDate: v.string(),
+  birthPlace: localized,
+  majorEducationalInstitution: localized,
+  publishedWorks: v.array(v.id("books")),
+});
+
+export const homePageFields = {
+  video: v.string(),
+  image: imageId,
+  worksCategory: v.array(worksCategoryItem),
+};
+
+export const biographyFields = {
+  description: localized,
+  card: biographyCard,
+  timeline: v.array(timelineItem),
+};
+
+export const lessonsPageFields = {
+  image: imageId,
+  url: v.string(),
+  lessons: v.array(lessonItem),
+};
+
+export const bookFields = {
+  title: localized,
+  description: localized,
+  url: v.string(),
+  slug: v.string(),
+  order: v.number(),
+  coverImage: imageId,
+  date: v.string(),
+};
+
+export default defineSchema({
+  // homePage, biography and lessonsPage are singletons: only one document each.
+  homePage: defineTable(homePageFields),
+  biography: defineTable(biographyFields),
+  lessonsPage: defineTable(lessonsPageFields),
+  books: defineTable(bookFields)
+    .index("by_order", ["order"])
+    .index("by_slug", ["slug"]),
+});
